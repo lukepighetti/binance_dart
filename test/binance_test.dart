@@ -36,4 +36,16 @@ void main() {
     expect(result.bids.length, equals(100));
     expect(result.asks.length, equals(100));
   });
+
+  test("recentTrades", () async {
+    final result = await http.recentTrades("BTCUSDT", 100);
+
+    expect(result.length, equals(100));
+    expect(result.first.id, isNotNull);
+    expect(result.first.isBestMatch, isNotNull);
+    expect(result.first.isBuyerMaker, isNotNull);
+    expect(result.first.price, isNotNull);
+    expect(result.first.qty, isNotNull);
+    expect(result.first.time, isNotNull);
+  });
 }

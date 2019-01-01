@@ -1,6 +1,6 @@
 library binance;
 
-export "websocket.dart";
+// export "websocket.dart";
 export "http.dart";
 
 const Map<String, int> map = {

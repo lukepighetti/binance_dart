@@ -69,6 +69,25 @@ class DRPoint {
         this.qty = num.parse(values[1]);
 }
 
+/// A class that represents the trades provided by /v1/trades
+
+class RecentTrade {
+  int id;
+  num price;
+  num qty;
+  DateTime time;
+  bool isBuyerMaker;
+  bool isBestMatch;
+
+  RecentTrade.fromMap(Map m)
+      : this.id = m['id'],
+        this.price = num.parse(m['price']),
+        this.qty = num.parse(m['qty']),
+        this.time = DateTime.fromMillisecondsSinceEpoch(m['time']),
+        this.isBuyerMaker = m['isBuyerMaker'],
+        this.isBestMatch = m['isBestMatch'];
+}
+
 // class Filter {
 //   String filterType;
 

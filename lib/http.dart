@@ -10,7 +10,7 @@ class BinanceHttp {
 
   BinanceHttp([this.key]);
 
-  Future<Map> _public(String path) =>
+  Future<dynamic> _public(String path) =>
       http.get("$BASE/api/$path").then((r) => convert.jsonDecode(r.body));
 
   /// Return true if the server is available
@@ -29,4 +29,9 @@ class BinanceHttp {
   Future<DepthResponse> depth(String symbol, [int limit = 100]) =>
       _public('/v1/depth?symbol=$symbol&limit=$limit')
           .then((r) => DepthResponse.fromMap(r));
+
+  /// Recent trades
+  Future<List<RecentTrade>> recentTrades(String symbol, [int limit = 500]) =>
+      _public('/v1/trades?symbol=$symbol&limit=$limit').then(
+          (r) => List<RecentTrade>.from(r.map((m) => RecentTrade.fromMap(m))));
 }
