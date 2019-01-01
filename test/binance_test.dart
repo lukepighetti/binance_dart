@@ -28,4 +28,12 @@ void main() {
 
     expect(result.symbols.length, greaterThan(100));
   });
+
+  test("depth", () async {
+    final result = await http.depth("BTCUSDT", 100);
+
+    expect(result.lastUpdateId, isNotNull);
+    expect(result.bids.length, equals(100));
+    expect(result.asks.length, equals(100));
+  });
 }

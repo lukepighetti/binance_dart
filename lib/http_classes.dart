@@ -1,31 +1,39 @@
-class ExchangeInfo {
+/// A class that represents the data located at /v1/exchangeInfo
+
+class ExchangeInfoResponse {
   String timezone;
   DateTime serverTime;
   // List<RateLimit> rateLimits;
 
   // List<ExchangeFilters> exchangeFilters;
 
-  List<Symbol> symbols;
+  List<EISymbol> symbols;
 
-  ExchangeInfo.fromMap(Map m)
+  ExchangeInfoResponse.fromMap(Map m)
       : this.timezone = m['timezone'],
         this.serverTime = DateTime.fromMillisecondsSinceEpoch(m['serverTime']),
         this.symbols =
-            m['symbols'].map<Symbol>((s) => Symbol.fromMap(s)).toList();
+            m['symbols'].map<EISymbol>((s) => EISymbol.fromMap(s)).toList();
 }
 
-class Symbol {
+/// A class that represents the Symbols returned by /v1/exchangeInfo
+class EISymbol {
   String symbol;
+
+  /// PRE_TRADING, TRADING, POST_TRADING, END_OF_DAY, HALT, AUCTION_MATCH, BREAK
   String status;
   String baseAsset;
   num baseAssetPrecision;
   String quoteAsset;
   num quotePrecision;
+
+  /// LIMIT, MARKET, STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT,
+  /// TAKE_PROFIT_LIMIT, LIMIT_MAKER
   List<String> orderTypes;
   bool icebergAllowed;
   // List<Filter> filters;
 
-  Symbol.fromMap(Map m)
+  EISymbol.fromMap(Map m)
       : this.symbol = m['symbol'],
         this.status = m['status'],
         this.baseAsset = m['baseAsset'],
@@ -34,6 +42,31 @@ class Symbol {
         this.quotePrecision = m['quotePrecision'],
         this.orderTypes = List<String>.from(m['orderTypes']),
         this.icebergAllowed = m['icebergAllowed'];
+}
+
+/// A class that represents the data located at /v1/depth
+
+class DepthResponse {
+  int lastUpdateId;
+  List<DRPoint> bids;
+  List<DRPoint> asks;
+
+  DepthResponse.fromMap(Map m)
+      : this.lastUpdateId = m["lastUpdateId"],
+        this.bids =
+            List<DRPoint>.from(m["bids"].map((b) => DRPoint.fromList(b))),
+        this.asks =
+            List<DRPoint>.from(m["asks"].map((b) => DRPoint.fromList(b)));
+}
+
+/// A class that represents the bids/asks data provided by /v1/depth
+class DRPoint {
+  num price;
+  num qty;
+
+  DRPoint.fromList(List values)
+      : this.price = num.parse(values.first),
+        this.qty = num.parse(values[1]);
 }
 
 // class Filter {

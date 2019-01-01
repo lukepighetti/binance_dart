@@ -22,6 +22,11 @@ class BinanceHttp {
       .then((r) => DateTime.fromMillisecondsSinceEpoch(r["serverTime"]));
 
   /// Returns general info about the exchange
-  Future<ExchangeInfo> exchangeInfo() =>
-      _public('/v1/exchangeInfo').then((r) => ExchangeInfo.fromMap(r));
+  Future<ExchangeInfoResponse> exchangeInfo() =>
+      _public('/v1/exchangeInfo').then((r) => ExchangeInfoResponse.fromMap(r));
+
+  /// Order book depth
+  Future<DepthResponse> depth(String symbol, [int limit = 100]) =>
+      _public('/v1/depth?symbol=$symbol&limit=$limit')
+          .then((r) => DepthResponse.fromMap(r));
 }
