@@ -1,6 +1,8 @@
 import "package:http/http.dart" as http;
 import "dart:convert" as convert;
 
+import "http_classes.dart";
+
 const BASE = 'https://api.binance.com';
 
 class BinanceHttp {
@@ -18,4 +20,8 @@ class BinanceHttp {
   /// Return the current server time
   Future<DateTime> time() => _public('/v1/time')
       .then((r) => DateTime.fromMillisecondsSinceEpoch(r["serverTime"]));
+
+  /// Returns general info about the exchange
+  Future<ExchangeInfo> exchangeInfo() =>
+      _public('/v1/exchangeInfo').then((r) => ExchangeInfo.fromMap(r));
 }

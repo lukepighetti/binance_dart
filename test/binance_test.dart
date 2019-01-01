@@ -16,4 +16,16 @@ void main() {
 
     expect(serverTime.difference(now), lessThan(tolerance));
   });
+
+  test("exchangeInfo", () async {
+    final result = await http.exchangeInfo();
+
+    final serverTime = result.serverTime;
+    final now = DateTime.now();
+    final tolerance = Duration(minutes: 1);
+
+    expect(serverTime.difference(now), lessThan(tolerance));
+
+    expect(result.symbols.length, greaterThan(100));
+  });
 }
