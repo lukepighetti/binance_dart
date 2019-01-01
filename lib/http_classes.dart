@@ -88,6 +88,30 @@ class RecentTrade {
         this.isBestMatch = m['isBestMatch'];
 }
 
+/// A class that represents an aggregated trade provided
+/// by /v1/aggregatedTrades
+class AggregatedTrade implements RecentTrade {
+  int id;
+  num price;
+  num qty;
+  DateTime time;
+  bool isBuyerMaker;
+  bool isBestMatch;
+
+  int firstTradeId;
+  int lastTradeId;
+
+  AggregatedTrade.fromMap(Map m)
+      : this.id = m['a'],
+        this.price = num.parse(m['p']),
+        this.qty = num.parse(m['q']),
+        this.time = DateTime.fromMillisecondsSinceEpoch(m['T']),
+        this.isBuyerMaker = m['m'],
+        this.isBestMatch = m['M'],
+        this.firstTradeId = m['f'],
+        this.lastTradeId = m['l'];
+}
+
 // class Filter {
 //   String filterType;
 

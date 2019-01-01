@@ -48,4 +48,21 @@ void main() {
     expect(result.first.qty, isNotNull);
     expect(result.first.time, isNotNull);
   });
+
+  test("aggregatedTrades", () async {
+    final result = await http.aggregatedTrades(
+      "BTCUSDT",
+      limit: 100,
+      startTime: DateTime.now().subtract(Duration(minutes: 10)),
+      endTime: DateTime.now(),
+    );
+
+    expect(result.length, equals(100));
+    expect(result.first.id, isNotNull);
+    expect(result.first.isBestMatch, isNotNull);
+    expect(result.first.isBuyerMaker, isNotNull);
+    expect(result.first.price, isNotNull);
+    expect(result.first.qty, isNotNull);
+    expect(result.first.time, isNotNull);
+  });
 }
