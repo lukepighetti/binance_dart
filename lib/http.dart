@@ -29,9 +29,9 @@ class BinanceHttp {
       _public('/v1/exchangeInfo').then((r) => ExchangeInfoResponse.fromMap(r));
 
   /// Order book depth from /v1/depth
-  Future<DepthResponse> depth(String symbol, [int limit = 100]) =>
+  Future<BookDepth> depth(String symbol, [int limit = 100]) =>
       _public('/v1/depth', {"symbol": "$symbol", "limit": "$limit"})
-          .then((r) => DepthResponse.fromMap(r));
+          .then((r) => BookDepth.fromMap(r));
 
   /// Recent trades from /v1/trades
   Future<List<RecentTrade>> recentTrades(String symbol, [int limit = 500]) =>

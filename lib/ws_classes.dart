@@ -1,4 +1,5 @@
 import 'http_classes.dart' show AggregatedTrade;
+export 'http_classes.dart' show BookDepth;
 
 class WSBase {
   final String eventType = null;

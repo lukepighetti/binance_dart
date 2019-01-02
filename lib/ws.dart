@@ -57,4 +57,17 @@ class BinanceWebsocket {
     return channel.stream.map<List<Map>>(_toList).map<List<WSTicker>>(
         (ev) => ev.map((m) => WSTicker.fromMap(m)).toList());
   }
+
+  /// Reports book depth
+  ///
+  /// Levels can be 5, 10, or 20
+  Future<Stream<BookDepth>> bookDepth(String symbol, [int levels = 5]) async {
+    assert(levels == 5 || levels == 10 || levels == 20);
+
+    final channel = _public("${symbol.toLowerCase()}@depth$levels");
+
+    return channel.stream
+        .map<Map>(_toMap)
+        .map<BookDepth>((m) => BookDepth.fromMap(m));
+  }
 }

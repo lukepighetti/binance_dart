@@ -46,25 +46,25 @@ class EISymbol {
 
 /// A class that represents the data located at /v1/depth
 
-class DepthResponse {
+class BookDepth {
   final int lastUpdateId;
-  final List<DRPoint> bids;
-  final List<DRPoint> asks;
+  final List<BDPoint> bids;
+  final List<BDPoint> asks;
 
-  DepthResponse.fromMap(Map m)
+  BookDepth.fromMap(Map m)
       : this.lastUpdateId = m["lastUpdateId"],
         this.bids =
-            List<DRPoint>.from(m["bids"].map((b) => DRPoint.fromList(b))),
+            List<BDPoint>.from(m["bids"].map((b) => BDPoint.fromList(b))),
         this.asks =
-            List<DRPoint>.from(m["asks"].map((b) => DRPoint.fromList(b)));
+            List<BDPoint>.from(m["asks"].map((b) => BDPoint.fromList(b)));
 }
 
 /// A class that represents the bids/asks data provided by /v1/depth
-class DRPoint {
+class BDPoint {
   final num price;
   final num qty;
 
-  DRPoint.fromList(List values)
+  BDPoint.fromList(List values)
       : this.price = num.parse(values.first),
         this.qty = num.parse(values[1]);
 }
