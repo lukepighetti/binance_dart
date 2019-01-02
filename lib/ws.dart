@@ -12,11 +12,21 @@ class BinanceWebsocket {
 
   Map _toMap(json) => convert.jsonDecode(json);
 
+  /// Reports aggregated trade events from <symbol>@aggTrade
   Future<Stream<WSAggTrade>> aggTrade(String symbol) async {
     final channel = _public("${symbol.toLowerCase()}@aggTrade");
 
     return channel.stream
         .map<Map>(_toMap)
         .map<WSAggTrade>((e) => WSAggTrade.fromMap(e));
+  }
+
+  /// Reports 24hr ticker events every second from <symbol>@miniTicker
+  Future<Stream<WSMiniTicker>> miniTicker(String symbol) async {
+    final channel = _public("${symbol.toLowerCase()}@miniTicker");
+
+    return channel.stream
+        .map<Map>(_toMap)
+        .map<WSMiniTicker>((e) => WSMiniTicker.fromMap(e));
   }
 }
