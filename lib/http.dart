@@ -126,9 +126,24 @@ class BinanceHttp {
     return PriceTicker.fromMap(response);
   }
 
+  /// All price tickers from /v3/ticker/price
   Future<List<PriceTicker>> allSymbolPriceTickers() async {
     final response = await _public("/v3/ticker/price");
 
     return List<PriceTicker>.from(response.map((s) => PriceTicker.fromMap(s)));
+  }
+
+  /// Symbol order book ticker from /v3/ticker/bookTicker
+  Future<BookTicker> bookTicker(String symbol) async {
+    final response = await _public("/v3/ticker/bookTicker", {"symbol": symbol});
+
+    return BookTicker.fromMap(response);
+  }
+
+  /// All price tickers from /v3/ticker/price
+  Future<List<BookTicker>> allBookTickers() async {
+    final response = await _public("/v3/ticker/bookTicker");
+
+    return List<BookTicker>.from(response.map((s) => BookTicker.fromMap(s)));
   }
 }

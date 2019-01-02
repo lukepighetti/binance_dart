@@ -209,6 +209,23 @@ class PriceTicker {
         this.price = double.parse(m["price"]);
 }
 
+/// A class that contains the data returned by /v3/ticker/bookTicker
+
+class BookTicker {
+  String symbol;
+  double bidPrice;
+  double bidQty;
+  double askPrice;
+  double askQty;
+
+  BookTicker.fromMap(Map m)
+      : this.symbol = m["symbol"],
+        this.bidPrice = double.parse(m["bidPrice"]),
+        this.bidQty = double.parse(m["bidQty"]),
+        this.askPrice = double.parse(m["askPrice"]),
+        this.askQty = double.parse(m["askQty"]);
+}
+
 // class Filter {
 //   String filterType;
 
