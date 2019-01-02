@@ -1,13 +1,13 @@
 /// A class that represents the data located at /v1/exchangeInfo
 
 class ExchangeInfoResponse {
-  String timezone;
-  DateTime serverTime;
+  final String timezone;
+  final DateTime serverTime;
   // List<RateLimit> rateLimits;
 
   // List<ExchangeFilters> exchangeFilters;
 
-  List<EISymbol> symbols;
+  final List<EISymbol> symbols;
 
   ExchangeInfoResponse.fromMap(Map m)
       : this.timezone = m['timezone'],
@@ -18,19 +18,19 @@ class ExchangeInfoResponse {
 
 /// A class that represents the Symbols returned by /v1/exchangeInfo
 class EISymbol {
-  String symbol;
+  final String symbol;
 
   /// PRE_TRADING, TRADING, POST_TRADING, END_OF_DAY, HALT, AUCTION_MATCH, BREAK
-  String status;
-  String baseAsset;
-  num baseAssetPrecision;
-  String quoteAsset;
-  num quotePrecision;
+  final String status;
+  final String baseAsset;
+  final num baseAssetPrecision;
+  final String quoteAsset;
+  final num quotePrecision;
 
   /// LIMIT, MARKET, STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT,
   /// TAKE_PROFIT_LIMIT, LIMIT_MAKER
-  List<String> orderTypes;
-  bool icebergAllowed;
+  final List<String> orderTypes;
+  final bool icebergAllowed;
   // List<Filter> filters;
 
   EISymbol.fromMap(Map m)
@@ -47,9 +47,9 @@ class EISymbol {
 /// A class that represents the data located at /v1/depth
 
 class DepthResponse {
-  int lastUpdateId;
-  List<DRPoint> bids;
-  List<DRPoint> asks;
+  final int lastUpdateId;
+  final List<DRPoint> bids;
+  final List<DRPoint> asks;
 
   DepthResponse.fromMap(Map m)
       : this.lastUpdateId = m["lastUpdateId"],
@@ -61,8 +61,8 @@ class DepthResponse {
 
 /// A class that represents the bids/asks data provided by /v1/depth
 class DRPoint {
-  num price;
-  num qty;
+  final num price;
+  final num qty;
 
   DRPoint.fromList(List values)
       : this.price = num.parse(values.first),
@@ -72,12 +72,12 @@ class DRPoint {
 /// A class that represents the trades provided by /v1/trades
 
 class RecentTrade {
-  int id;
-  num price;
-  num qty;
-  DateTime time;
-  bool isBuyerMaker;
-  bool isBestMatch;
+  final int id;
+  final num price;
+  final num qty;
+  final DateTime time;
+  final bool isBuyerMaker;
+  final bool isBestMatch;
 
   RecentTrade.fromMap(Map m)
       : this.id = m['id'],
@@ -91,15 +91,15 @@ class RecentTrade {
 /// A class that represents an aggregated trade provided
 /// by /v1/aggregatedTrades
 class AggregatedTrade implements RecentTrade {
-  int id;
-  num price;
-  num qty;
-  DateTime time;
-  bool isBuyerMaker;
-  bool isBestMatch;
+  final int id;
+  final num price;
+  final num qty;
+  final DateTime time;
+  final bool isBuyerMaker;
+  final bool isBestMatch;
 
-  int firstTradeId;
-  int lastTradeId;
+  final int firstTradeId;
+  final int lastTradeId;
 
   AggregatedTrade.fromMap(Map m)
       : this.id = m['a'],
@@ -110,6 +110,36 @@ class AggregatedTrade implements RecentTrade {
         this.isBestMatch = m['M'],
         this.firstTradeId = m['f'],
         this.lastTradeId = m['l'];
+}
+
+/// A class that represents a candlestick provided by /v1/klines
+
+class Candlestick {
+  final DateTime openTime;
+  final double open;
+  final double high;
+  final double low;
+  final double close;
+  final double volume;
+  final DateTime closeTime;
+
+  final double quoteVolume;
+  final int tradesCount;
+  final double takerBase;
+  final double takerQuote;
+
+  Candlestick.fromList(List c)
+      : this.openTime = DateTime.fromMillisecondsSinceEpoch(c.first),
+        this.open = double.parse(c[1]),
+        this.high = double.parse(c[2]),
+        this.low = double.parse(c[3]),
+        this.close = double.parse(c[4]),
+        this.volume = double.parse(c[5]),
+        this.closeTime = DateTime.fromMillisecondsSinceEpoch(c[6]),
+        this.quoteVolume = double.parse(c[7]),
+        this.tradesCount = c[8],
+        this.takerBase = double.parse(c[9]),
+        this.takerQuote = double.parse(c[10]);
 }
 
 // class Filter {

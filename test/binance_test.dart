@@ -65,4 +65,18 @@ void main() {
     expect(result.first.qty, isNotNull);
     expect(result.first.time, isNotNull);
   });
+
+  test("candlesticks", () async {
+    final result = await http.candlesticks(
+      "BTCUSDT",
+      "1m",
+      limit: 100,
+    );
+
+    expect(result.length, equals(100));
+    expect(result.first.open, isNotNull);
+    expect(result.first.high, isNotNull);
+    expect(result.first.low, isNotNull);
+    expect(result.first.close, isNotNull);
+  });
 }

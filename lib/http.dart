@@ -49,8 +49,6 @@ class BinanceHttp {
     DateTime endTime,
     int limit = 500,
   }) async {
-    assert(limit <= 1000);
-
     final params = {"symbol": "$symbol"};
 
     if (fromId != null) params["fromId"] = "$fromId";
@@ -64,6 +62,36 @@ class BinanceHttp {
 
     return List<AggregatedTrade>.from(
       response.map((t) => AggregatedTrade.fromMap(t)),
+    );
+  }
+
+  /// Kline/Candlestick data
+  ///
+  /// Acceptable intervals are
+  /// 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
+
+  Future<List<Candlestick>> candlesticks(
+    String symbol,
+    String interval, {
+    DateTime startTime,
+    DateTime endTime,
+    int limit = 500,
+  }) async {
+    final params = {
+      "symbol": "$symbol",
+      "interval": "$interval",
+      "limit": "$limit",
+    };
+
+    if (startTime != null)
+      params["startTime"] = startTime.millisecondsSinceEpoch.toString();
+    if (endTime != null)
+      params["endTime"] = endTime.millisecondsSinceEpoch.toString();
+
+    final response = await _public('/v1/klines', params);
+
+    return List<Candlestick>.from(
+      response.map((c) => Candlestick.fromList(c)),
     );
   }
 }
