@@ -1,4 +1,4 @@
-import 'http_classes.dart' show AggregatedTrade;
+import 'http_classes.dart' show AggregatedTrade, BookDepth, BDPoint;
 export 'http_classes.dart' show BookDepth;
 
 class WSBase {
@@ -119,4 +119,25 @@ class WSTicker implements WSMiniTicker {
         this.firstTradeId = m['F'],
         this.lastTradeId = m['L'],
         this.tradesCount = m['n'];
+}
+
+class WSDiffBookDepth implements BookDepth, WSBase {
+  final String eventType;
+  final DateTime eventTime;
+  final String symbol;
+
+  final int firstUpdateId;
+  final int lastUpdateId;
+
+  final List<BDPoint> bids;
+  final List<BDPoint> asks;
+
+  WSDiffBookDepth.fromMap(Map m)
+      : this.eventType = m['e'],
+        this.eventTime = DateTime.fromMillisecondsSinceEpoch(m['E']),
+        this.symbol = m['s'],
+        this.firstUpdateId = m["U"],
+        this.lastUpdateId = m["u"],
+        this.bids = List<BDPoint>.from(m["b"].map((b) => BDPoint.fromList(b))),
+        this.asks = List<BDPoint>.from(m["a"].map((b) => BDPoint.fromList(b)));
 }

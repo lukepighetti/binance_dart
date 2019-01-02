@@ -70,4 +70,15 @@ class BinanceWebsocket {
         .map<Map>(_toMap)
         .map<BookDepth>((m) => BookDepth.fromMap(m));
   }
+
+  /// Difference book depth
+  ///
+  /// This can be used to update an existing book with incremental changes
+  Future<Stream<WSDiffBookDepth>> diffBookDepth(String symbol) async {
+    final channel = _public("${symbol.toLowerCase()}@depth");
+
+    return channel.stream
+        .map<Map>(_toMap)
+        .map<WSDiffBookDepth>((m) => WSDiffBookDepth.fromMap(m));
+  }
 }
