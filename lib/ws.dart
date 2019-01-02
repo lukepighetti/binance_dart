@@ -11,6 +11,7 @@ class BinanceWebsocket {
       );
 
   Map _toMap(json) => convert.jsonDecode(json);
+  List<Map> _toList(json) => List<Map>.from(convert.jsonDecode(json));
 
   /// Reports aggregated trade events from <symbol>@aggTrade
   Future<Stream<WSAggTrade>> aggTrade(String symbol) async {
@@ -28,5 +29,14 @@ class BinanceWebsocket {
     return channel.stream
         .map<Map>(_toMap)
         .map<WSMiniTicker>((e) => WSMiniTicker.fromMap(e));
+  }
+
+  /// Reports 24hr ticker events every second for every trading pair
+  /// that changed in the last second
+  Future<Stream<List<WSMiniTicker>>> allMiniTickers() async {
+    final channel = _public("!miniTicker@arr");
+
+    return channel.stream.map<List<Map>>(_toList).map<List<WSMiniTicker>>(
+        (ev) => ev.map((m) => WSMiniTicker.fromMap(m)).toList());
   }
 }

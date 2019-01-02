@@ -23,4 +23,14 @@ void main() {
       expect(e.close, isNotNull);
     }));
   });
+
+  test("allMiniTickers", () async {
+    final stream = await websocket.allMiniTickers();
+
+    stream.first.then(expectAsync1((e) {
+      expect(e.first.eventType, equals("24hrMiniTicker"));
+      expect(e.first.eventTime, isNotNull);
+      expect(e.first.close, isNotNull);
+    }));
+  });
 }
