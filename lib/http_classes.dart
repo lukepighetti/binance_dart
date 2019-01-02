@@ -153,6 +153,51 @@ class AveragePrice {
         this.price = double.parse(m["price"]);
 }
 
+/// A class that represents the data provided by /v1/ticker/24hr
+
+class DailyStats {
+  final String symbol;
+  final double priceChange;
+  final double priceChangePercent;
+  final double weightedAvgPrice;
+  final double prevClosePrice;
+  final double lastPrice;
+  final double lastQty;
+  final double bidPrice;
+  final double askPrice;
+  final double openPrice;
+  final double highPrice;
+  final double lowPrice;
+  final double volume;
+  final double quoteVolume;
+  final DateTime openTime;
+  final DateTime closeTime;
+  final int firstId;
+  final int lastId;
+  final int count;
+
+  DailyStats.fromMap(Map m)
+      : this.symbol = m["symbol"],
+        this.priceChange = double.parse(m["priceChange"]),
+        this.priceChangePercent = double.parse(m["priceChangePercent"]),
+        this.weightedAvgPrice = double.parse(m["weightedAvgPrice"]),
+        this.prevClosePrice = double.parse(m["prevClosePrice"]),
+        this.lastPrice = double.parse(m["lastPrice"]),
+        this.lastQty = double.parse(m["lastQty"]),
+        this.bidPrice = double.parse(m["bidPrice"]),
+        this.askPrice = double.parse(m["askPrice"]),
+        this.openPrice = double.parse(m["openPrice"]),
+        this.highPrice = double.parse(m["highPrice"]),
+        this.lowPrice = double.parse(m["lowPrice"]),
+        this.volume = double.parse(m["volume"]),
+        this.quoteVolume = double.parse(m["quoteVolume"]),
+        this.openTime = DateTime.fromMillisecondsSinceEpoch(m["openTime"]),
+        this.closeTime = DateTime.fromMillisecondsSinceEpoch(m["closeTime"]),
+        this.firstId = m["firstId"],
+        this.lastId = m["lastId"],
+        this.count = m["count"];
+}
+
 // class Filter {
 //   String filterType;
 

@@ -99,4 +99,12 @@ class BinanceHttp {
   Future<AveragePrice> averagePrice(String symbol) =>
       _public("/v3/avgPrice", {"symbol": symbol})
           .then((r) => AveragePrice.fromMap(r));
+
+  /// 24 hour ticker price change statistics
+  Future<DailyStats> dailyStats(String symbol) async {
+    assert(symbol != null);
+    final response = await _public("/v1/ticker/24hr", {"symbol": symbol});
+
+    return DailyStats.fromMap(response);
+  }
 }

@@ -86,4 +86,11 @@ void main() {
     expect(result.mins, isNotNull);
     expect(result.price, isNotNull);
   });
+
+  test("dailyStats", () async {
+    final result = await http.dailyStats("BTCUSDT");
+
+    expect(result.symbol, equals("BTCUSDT"));
+    expect(result.lastPrice, isNotNull);
+  });
 }
