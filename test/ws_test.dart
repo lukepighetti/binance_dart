@@ -33,4 +33,14 @@ void main() {
       expect(e.first.close, isNotNull);
     }));
   });
+
+  test("ticker", () async {
+    final stream = await websocket.ticker("BTCUSDT");
+
+    stream.first.then(expectAsync1((e) {
+      expect(e.eventType, equals("24hrTicker"));
+      expect(e.eventTime, isNotNull);
+      expect(e.close, isNotNull);
+    }));
+  });
 }

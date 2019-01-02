@@ -22,7 +22,7 @@ class BinanceWebsocket {
         .map<WSAggTrade>((e) => WSAggTrade.fromMap(e));
   }
 
-  /// Reports 24hr ticker events every second from <symbol>@miniTicker
+  /// Reports 24hr miniTicker events every second from <symbol>@miniTicker
   Future<Stream<WSMiniTicker>> miniTicker(String symbol) async {
     final channel = _public("${symbol.toLowerCase()}@miniTicker");
 
@@ -31,12 +31,21 @@ class BinanceWebsocket {
         .map<WSMiniTicker>((e) => WSMiniTicker.fromMap(e));
   }
 
-  /// Reports 24hr ticker events every second for every trading pair
+  /// Reports 24hr miniTicker events every second for every trading pair
   /// that changed in the last second
   Future<Stream<List<WSMiniTicker>>> allMiniTickers() async {
     final channel = _public("!miniTicker@arr");
 
     return channel.stream.map<List<Map>>(_toList).map<List<WSMiniTicker>>(
         (ev) => ev.map((m) => WSMiniTicker.fromMap(m)).toList());
+  }
+
+  /// Reports 24hr ticker events every second from <symbol>@ticker
+  Future<Stream<WSTicker>> ticker(String symbol) async {
+    final channel = _public("${symbol.toLowerCase()}@ticker");
+
+    return channel.stream
+        .map<Map>(_toMap)
+        .map<WSTicker>((e) => WSTicker.fromMap(e));
   }
 }

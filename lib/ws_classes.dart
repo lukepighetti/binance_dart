@@ -37,7 +37,7 @@ class WSAggTrade implements AggregatedTrade, WSBase {
         this.isBestMatch = m['M'];
 }
 
-/// Represents data provided by <symbol>@miniTicker
+/// Represents data provided by <symbol>@miniTicker and !miniTicker@arr
 class WSMiniTicker implements WSBase {
   final String eventType;
   final DateTime eventTime;
@@ -62,15 +62,60 @@ class WSMiniTicker implements WSBase {
         this.quoteVolume = double.parse(m['q']);
 }
 
-// final DateTime openTime;
-// final double open;
-// final double high;
-// final double low;
-// final double close;
-// final double volume;
-// final DateTime closeTime;
+/// Represents data provided by <symbol>@ticker and !ticker@arr
+class WSTicker implements WSMiniTicker {
+  final String eventType;
+  final DateTime eventTime;
+  final String symbol;
 
-// final double quoteVolume;
-// final int tradesCount;
-// final double takerBase;
-// final double takerQuote;
+  final double priceChange;
+  final double percentChange;
+  final double averagePrice;
+  final double initialPrice;
+  final double lastPrice;
+  final double lastQty;
+  final double bestBid;
+  final double bestBidQty;
+  final double bestAsk;
+  final double bestAskQty;
+
+  final double open;
+  final double high;
+  final double low;
+  final double volume;
+  final double quoteVolume;
+
+  final DateTime openTime;
+  final DateTime closeTime;
+
+  final int firstTradeId;
+  final int lastTradeId;
+  final int tradesCount;
+
+  double get close => lastPrice; // extra from WSMiniTicker
+
+  WSTicker.fromMap(Map m)
+      : this.eventType = m['e'],
+        this.eventTime = DateTime.fromMillisecondsSinceEpoch(m['E']),
+        this.symbol = m['s'],
+        this.priceChange = double.parse(m['p']),
+        this.percentChange = double.parse(m['P']),
+        this.averagePrice = double.parse(m['w']),
+        this.initialPrice = double.parse(m['x']),
+        this.lastPrice = double.parse(m['c']),
+        this.lastQty = double.parse(m['Q']),
+        this.bestBid = double.parse(m['b']),
+        this.bestBidQty = double.parse(m['B']),
+        this.bestAsk = double.parse(m['a']),
+        this.bestAskQty = double.parse(m['A']),
+        this.open = double.parse(m['o']),
+        this.high = double.parse(m['h']),
+        this.low = double.parse(m['l']),
+        this.volume = double.parse(m['v']),
+        this.quoteVolume = double.parse(m['q']),
+        this.openTime = DateTime.fromMillisecondsSinceEpoch(m['O']),
+        this.closeTime = DateTime.fromMillisecondsSinceEpoch(m['C']),
+        this.firstTradeId = m['F'],
+        this.lastTradeId = m['L'],
+        this.tradesCount = m['n'];
+}
