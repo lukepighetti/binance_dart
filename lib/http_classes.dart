@@ -142,6 +142,17 @@ class Candlestick {
         this.takerQuote = double.parse(c[10]);
 }
 
+/// A class that represents the data provided by /v3/avgPrice
+
+class AveragePrice {
+  num mins;
+  double price;
+
+  AveragePrice.fromMap(Map m)
+      : this.mins = m["mins"],
+        this.price = double.parse(m["price"]);
+}
+
 // class Filter {
 //   String filterType;
 

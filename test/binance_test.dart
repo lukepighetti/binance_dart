@@ -79,4 +79,11 @@ void main() {
     expect(result.first.low, isNotNull);
     expect(result.first.close, isNotNull);
   });
+
+  test("averagePrice", () async {
+    final result = await http.averagePrice("BTCUSDT");
+
+    expect(result.mins, isNotNull);
+    expect(result.price, isNotNull);
+  });
 }
