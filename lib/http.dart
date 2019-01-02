@@ -107,4 +107,13 @@ class BinanceHttp {
 
     return DailyStats.fromMap(response);
   }
+
+  /// WARNING: this is VERY expensive and may cause rate limiting
+  ///
+  /// 24 hour ticker price change statistics for all coins
+  Future<List<DailyStats>> allDailyStats() async {
+    final response = await _public("/v1/ticker/24hr");
+
+    return List<DailyStats>.from(response.map((s) => DailyStats.fromMap(s)));
+  }
 }
