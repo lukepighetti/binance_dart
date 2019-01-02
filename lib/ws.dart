@@ -48,4 +48,13 @@ class BinanceWebsocket {
         .map<Map>(_toMap)
         .map<WSTicker>((e) => WSTicker.fromMap(e));
   }
+
+  /// Reports 24hr miniTicker events every second for every trading pair
+  /// that changed in the last second
+  Future<Stream<List<WSTicker>>> allTickers() async {
+    final channel = _public("!ticker@arr");
+
+    return channel.stream.map<List<Map>>(_toList).map<List<WSTicker>>(
+        (ev) => ev.map((m) => WSTicker.fromMap(m)).toList());
+  }
 }
