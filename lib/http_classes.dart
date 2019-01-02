@@ -198,6 +198,17 @@ class DailyStats {
         this.count = m["count"];
 }
 
+/// A class that contains the data returned by /v3/ticker/price
+
+class PriceTicker {
+  String symbol;
+  double price;
+
+  PriceTicker.fromMap(Map m)
+      : this.symbol = m["symbol"],
+        this.price = double.parse(m["price"]);
+}
+
 // class Filter {
 //   String filterType;
 

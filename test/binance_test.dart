@@ -101,4 +101,19 @@ void main() {
     expect(result.first.symbol, isNotNull);
     expect(result.first.lastPrice, isNotNull);
   });
+
+  test("symbolPriceTicker", () async {
+    final result = await http.symbolPriceTicker("BTCUSDT");
+
+    expect(result.symbol, equals("BTCUSDT"));
+    expect(result.price, isNotNull);
+  });
+
+  test("allSymbolPriceTickers", () async {
+    final result = await http.allSymbolPriceTickers();
+
+    expect(result.length, greaterThan(100));
+    expect(result.first.symbol, isNotNull);
+    expect(result.first.price, isNotNull);
+  });
 }
