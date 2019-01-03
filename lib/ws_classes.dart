@@ -1,10 +1,10 @@
 import 'http_classes.dart' show AggregatedTrade, BookDepth, BDPoint;
 export 'http_classes.dart' show BookDepth;
 
-class WSBase {
-  final String eventType = null;
-  final DateTime eventTime = null;
-  final String symbol = null;
+abstract class WSBase {
+  String get eventType;
+  DateTime get eventTime;
+  String get symbol;
 }
 
 /// Represents data provided by <symbol>@aggTrade
