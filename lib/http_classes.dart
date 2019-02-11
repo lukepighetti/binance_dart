@@ -3,9 +3,6 @@
 class ExchangeInfoResponse {
   final String timezone;
   final DateTime serverTime;
-  // List<RateLimit> rateLimits;
-
-  // List<ExchangeFilters> exchangeFilters;
 
   final List<EISymbol> symbols;
 
@@ -225,33 +222,3 @@ class BookTicker {
         this.askPrice = double.parse(m["askPrice"]),
         this.askQty = double.parse(m["askQty"]);
 }
-
-// class Filter {
-//   String filterType;
-
-//   /// PRICE_FILTER
-//   double minPrice;
-//   double maxPrice;
-//   double tickSize;
-
-//   /// PERCENT_PRICE
-//   num multiplierUp;
-//   num multiplierDown;
-//   int avgPriceMins;
-
-//   /// LOT_SIZE
-//   double minQty;
-//   double maxQty;
-//   double stepSize;
-
-//   /// MIN_NOTIONAL
-//   double minNotional;
-//   bool applyToMarket;
-//   // int avgPriceMins;
-
-//   /// ICEBERG_PARTS
-//   int limit;
-
-//   /// MAX_NUM_ALGO_ORDERS
-//   int maxNumAlgoOrders;
-// }
