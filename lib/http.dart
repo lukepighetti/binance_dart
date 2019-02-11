@@ -6,10 +6,6 @@ import "http_classes.dart";
 const BASE = 'https://api.binance.com';
 
 class BinanceHttp {
-  final String key;
-
-  BinanceHttp([this.key]);
-
   Future<dynamic> _public(String path, [Map<String, String> params]) async {
     final uri = Uri.https("api.binance.com", "/api/$path", params);
     final response = await http.get(uri);
