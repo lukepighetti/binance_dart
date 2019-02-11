@@ -4,17 +4,18 @@ class ExchangeInfoResponse {
   final String timezone;
   final DateTime serverTime;
 
-  final List<EISymbol> symbols;
+  final List<ExchangeInfoSymbol> symbols;
 
   ExchangeInfoResponse.fromMap(Map m)
       : this.timezone = m['timezone'],
         this.serverTime = DateTime.fromMillisecondsSinceEpoch(m['serverTime']),
-        this.symbols =
-            m['symbols'].map<EISymbol>((s) => EISymbol.fromMap(s)).toList();
+        this.symbols = m['symbols']
+            .map<ExchangeInfoSymbol>((s) => ExchangeInfoSymbol.fromMap(s))
+            .toList();
 }
 
 /// A class that represents the Symbols returned by /v1/exchangeInfo
-class EISymbol {
+class ExchangeInfoSymbol {
   final String symbol;
 
   /// PRE_TRADING, TRADING, POST_TRADING, END_OF_DAY, HALT, AUCTION_MATCH, BREAK
@@ -30,7 +31,7 @@ class EISymbol {
   final bool icebergAllowed;
   // List<Filter> filters;
 
-  EISymbol.fromMap(Map m)
+  ExchangeInfoSymbol.fromMap(Map m)
       : this.symbol = m['symbol'],
         this.status = m['status'],
         this.baseAsset = m['baseAsset'],
@@ -45,23 +46,23 @@ class EISymbol {
 
 class BookDepth {
   final int lastUpdateId;
-  final List<BDPoint> bids;
-  final List<BDPoint> asks;
+  final List<BookDepthPoint> bids;
+  final List<BookDepthPoint> asks;
 
   BookDepth.fromMap(Map m)
       : this.lastUpdateId = m["lastUpdateId"],
-        this.bids =
-            List<BDPoint>.from(m["bids"].map((b) => BDPoint.fromList(b))),
-        this.asks =
-            List<BDPoint>.from(m["asks"].map((b) => BDPoint.fromList(b)));
+        this.bids = List<BookDepthPoint>.from(
+            m["bids"].map((b) => BookDepthPoint.fromList(b))),
+        this.asks = List<BookDepthPoint>.from(
+            m["asks"].map((b) => BookDepthPoint.fromList(b)));
 }
 
 /// A class that represents the bids/asks data provided by /v1/depth
-class BDPoint {
+class BookDepthPoint {
   final num price;
   final num qty;
 
-  BDPoint.fromList(List values)
+  BookDepthPoint.fromList(List values)
       : this.price = num.parse(values.first),
         this.qty = num.parse(values[1]);
 }
@@ -111,7 +112,7 @@ class AggregatedTrade implements RecentTrade {
 
 /// A class that represents a candlestick provided by /v1/klines
 
-class Candlestick {
+class Kline {
   final DateTime openTime;
   final double open;
   final double high;
@@ -125,7 +126,7 @@ class Candlestick {
   final double takerBase;
   final double takerQuote;
 
-  Candlestick.fromList(List c)
+  Kline.fromList(List c)
       : this.openTime = DateTime.fromMillisecondsSinceEpoch(c.first),
         this.open = double.parse(c[1]),
         this.high = double.parse(c[2]),

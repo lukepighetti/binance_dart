@@ -66,7 +66,7 @@ class BinanceHttp {
   /// Acceptable intervals are
   /// 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
 
-  Future<List<Candlestick>> candlesticks(
+  Future<List<Kline>> candlesticks(
     String symbol,
     String interval, {
     DateTime startTime,
@@ -86,8 +86,8 @@ class BinanceHttp {
 
     final response = await _public('/v1/klines', params);
 
-    return List<Candlestick>.from(
-      response.map((c) => Candlestick.fromList(c)),
+    return List<Kline>.from(
+      response.map((c) => Kline.fromList(c)),
     );
   }
 

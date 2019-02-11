@@ -1,14 +1,14 @@
-import 'http_classes.dart' show AggregatedTrade, BookDepth, BDPoint;
+import 'http_classes.dart' show AggregatedTrade, BookDepth, BookDepthPoint;
 export 'http_classes.dart' show BookDepth;
 
-abstract class WSBase {
+abstract class WebsocketBase {
   String get eventType;
   DateTime get eventTime;
   String get symbol;
 }
 
 /// Represents data provided by <symbol>@aggTrade
-class WSAggTrade implements AggregatedTrade, WSBase {
+class WebsocketAggregatedTrade implements AggregatedTrade, WebsocketBase {
   final String eventType;
   final DateTime eventTime;
   final String symbol;
@@ -24,7 +24,7 @@ class WSAggTrade implements AggregatedTrade, WSBase {
   final bool isBuyerMaker;
   final bool isBestMatch;
 
-  WSAggTrade.fromMap(Map m)
+  WebsocketAggregatedTrade.fromMap(Map m)
       : this.eventType = m['e'],
         this.eventTime = DateTime.fromMillisecondsSinceEpoch(m['E']),
         this.symbol = m['s'],
@@ -39,7 +39,7 @@ class WSAggTrade implements AggregatedTrade, WSBase {
 }
 
 /// Represents data provided by <symbol>@miniTicker and !miniTicker@arr
-class WSMiniTicker implements WSBase {
+class WebsocketMiniTicker implements WebsocketBase {
   final String eventType;
   final DateTime eventTime;
   final String symbol;
@@ -51,7 +51,7 @@ class WSMiniTicker implements WSBase {
   final double volume;
   final double quoteVolume;
 
-  WSMiniTicker.fromMap(Map m)
+  WebsocketMiniTicker.fromMap(Map m)
       : this.eventType = m['e'],
         this.eventTime = DateTime.fromMillisecondsSinceEpoch(m['E']),
         this.symbol = m['s'],
@@ -64,7 +64,7 @@ class WSMiniTicker implements WSBase {
 }
 
 /// Represents data provided by <symbol>@ticker and !ticker@arr
-class WSTicker implements WSMiniTicker {
+class WebsocketTicker implements WebsocketMiniTicker {
   final String eventType;
   final DateTime eventTime;
   final String symbol;
@@ -95,7 +95,7 @@ class WSTicker implements WSMiniTicker {
 
   double get close => lastPrice; // extra from WSMiniTicker
 
-  WSTicker.fromMap(Map m)
+  WebsocketTicker.fromMap(Map m)
       : this.eventType = m['e'],
         this.eventTime = DateTime.fromMillisecondsSinceEpoch(m['E']),
         this.symbol = m['s'],
@@ -121,7 +121,7 @@ class WSTicker implements WSMiniTicker {
         this.tradesCount = m['n'];
 }
 
-class WSDiffBookDepth implements BookDepth, WSBase {
+class DiffBookDepth implements BookDepth, WebsocketBase {
   final String eventType;
   final DateTime eventTime;
   final String symbol;
@@ -129,15 +129,17 @@ class WSDiffBookDepth implements BookDepth, WSBase {
   final int firstUpdateId;
   final int lastUpdateId;
 
-  final List<BDPoint> bids;
-  final List<BDPoint> asks;
+  final List<BookDepthPoint> bids;
+  final List<BookDepthPoint> asks;
 
-  WSDiffBookDepth.fromMap(Map m)
+  DiffBookDepth.fromMap(Map m)
       : this.eventType = m['e'],
         this.eventTime = DateTime.fromMillisecondsSinceEpoch(m['E']),
         this.symbol = m['s'],
         this.firstUpdateId = m["U"],
         this.lastUpdateId = m["u"],
-        this.bids = List<BDPoint>.from(m["b"].map((b) => BDPoint.fromList(b))),
-        this.asks = List<BDPoint>.from(m["a"].map((b) => BDPoint.fromList(b)));
+        this.bids = List<BookDepthPoint>.from(
+            m["b"].map((b) => BookDepthPoint.fromList(b))),
+        this.asks = List<BookDepthPoint>.from(
+            m["a"].map((b) => BookDepthPoint.fromList(b)));
 }
