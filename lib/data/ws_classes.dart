@@ -1,4 +1,4 @@
-import 'rest_classes.dart' show AggregatedTrade, BookDepth, BookDepthPoint;
+import 'rest_classes.dart';
 export 'rest_classes.dart' show BookDepth;
 
 abstract class WebsocketBase {
