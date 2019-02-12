@@ -1,7 +1,7 @@
 import "package:http/http.dart" as http;
 import "dart:convert" as convert;
 
-import "rest_classes.dart";
+import "data/rest_classes.dart";
 
 const BASE = 'https://api.binance.com';
 

@@ -1,7 +1,7 @@
 library binance;
 
-export "rest_classes.dart";
-export "ws_classes.dart";
+export "data/rest_classes.dart";
+export "data/ws_classes.dart";
 
 import "ws.dart";
 import "rest.dart";

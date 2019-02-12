@@ -2,7 +2,7 @@ import "dart:convert" as convert;
 
 import 'package:web_socket_channel/io.dart';
 
-import 'ws_classes.dart';
+import 'data/ws_classes.dart';
 
 class BinanceWebsocket {
   IOWebSocketChannel _public(String channel) => IOWebSocketChannel.connect(
