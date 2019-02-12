@@ -1,9 +1,9 @@
 import "package:test/test.dart";
 
-import 'package:binance/rest.dart';
+import 'package:binance/binance.dart';
 
 void main() {
-  final rest = BinanceRest();
+  final rest = Binance().rest;
   test("ping", () async {
     final result = await rest.ping();
     expect(result, equals(true));
@@ -69,7 +69,7 @@ void main() {
   test("candlesticks", () async {
     final result = await rest.candlesticks(
       "BTCUSDT",
-      "1m",
+      Interval.oneMinute,
       limit: 100,
     );
 

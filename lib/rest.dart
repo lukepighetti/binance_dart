@@ -2,6 +2,7 @@ import "package:http/http.dart" as http;
 import "dart:convert" as convert;
 
 import "data/rest_classes.dart";
+import 'data/enums.dart';
 
 const BASE = 'https://api.binance.com';
 
@@ -62,20 +63,16 @@ class BinanceRest {
   }
 
   /// Kline/Candlestick data from /v1/klines
-  ///
-  /// Acceptable intervals are
-  /// 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
-
   Future<List<Kline>> candlesticks(
     String symbol,
-    String interval, {
+    Interval interval, {
     DateTime startTime,
     DateTime endTime,
     int limit = 500,
   }) async {
     final params = {
       "symbol": "$symbol",
-      "interval": "$interval",
+      "interval": intervalMap[interval],
       "limit": "$limit",
     };
 
