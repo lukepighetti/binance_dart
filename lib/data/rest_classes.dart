@@ -1,4 +1,5 @@
 /// A class that represents the data located at /v1/exchangeInfo
+import 'enums.dart';
 
 class ExchangeInfoResponse {
   final String timezone;
@@ -18,27 +19,26 @@ class ExchangeInfoResponse {
 class ExchangeInfoSymbol {
   final String symbol;
 
-  /// PRE_TRADING, TRADING, POST_TRADING, END_OF_DAY, HALT, AUCTION_MATCH, BREAK
-  final String status;
+  final Status status;
   final String baseAsset;
   final num baseAssetPrecision;
   final String quoteAsset;
   final num quotePrecision;
 
-  /// LIMIT, MARKET, STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT,
-  /// TAKE_PROFIT_LIMIT, LIMIT_MAKER
-  final List<String> orderTypes;
+  final List<OrderType> orderTypes;
   final bool icebergAllowed;
   // List<Filter> filters;
 
   ExchangeInfoSymbol.fromMap(Map m)
       : this.symbol = m['symbol'],
-        this.status = m['status'],
+        this.status = statusMap[m['status']],
         this.baseAsset = m['baseAsset'],
         this.baseAssetPrecision = m['baseAssetPrecision'],
         this.quoteAsset = m['quoteAsset'],
         this.quotePrecision = m['quotePrecision'],
-        this.orderTypes = List<String>.from(m['orderTypes']),
+        this.orderTypes = List<String>.from(m['orderTypes'])
+            .map((s) => orderTypeMap[s])
+            .toList(),
         this.icebergAllowed = m['icebergAllowed'];
 }
 
