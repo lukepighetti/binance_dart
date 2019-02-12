@@ -1,12 +1,12 @@
 library binance;
 
-export "http_classes.dart";
+export "rest_classes.dart";
 export "ws_classes.dart";
 
 import "ws.dart";
-import "http.dart";
+import "rest.dart";
 
 class Binance {
   final BinanceWebsocket ws = BinanceWebsocket();
-  final BinanceHttp rest = BinanceHttp();
+  final BinanceRest rest = BinanceRest();
 }

@@ -1,5 +1,5 @@
-import 'http_classes.dart' show AggregatedTrade, BookDepth, BookDepthPoint;
-export 'http_classes.dart' show BookDepth;
+import 'rest_classes.dart' show AggregatedTrade, BookDepth, BookDepthPoint;
+export 'rest_classes.dart' show BookDepth;
 
 abstract class WebsocketBase {
   String get eventType;

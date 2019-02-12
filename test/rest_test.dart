@@ -1,16 +1,16 @@
 import "package:test/test.dart";
 
-import 'package:binance/http.dart';
+import 'package:binance/rest.dart';
 
 void main() {
-  final http = BinanceHttp();
+  final rest = BinanceRest();
   test("ping", () async {
-    final result = await http.ping();
+    final result = await rest.ping();
     expect(result, equals(true));
   });
 
   test("time", () async {
-    final serverTime = await http.time();
+    final serverTime = await rest.time();
     final now = DateTime.now();
     final tolerance = Duration(minutes: 1);
 
@@ -18,7 +18,7 @@ void main() {
   });
 
   test("exchangeInfo", () async {
-    final result = await http.exchangeInfo();
+    final result = await rest.exchangeInfo();
 
     final serverTime = result.serverTime;
     final now = DateTime.now();
@@ -30,7 +30,7 @@ void main() {
   });
 
   test("depth", () async {
-    final result = await http.depth("BTCUSDT", 100);
+    final result = await rest.depth("BTCUSDT", 100);
 
     expect(result.lastUpdateId, isNotNull);
     expect(result.bids.length, equals(100));
@@ -38,7 +38,7 @@ void main() {
   });
 
   test("recentTrades", () async {
-    final result = await http.recentTrades("BTCUSDT", 100);
+    final result = await rest.recentTrades("BTCUSDT", 100);
 
     expect(result.length, equals(100));
     expect(result.first.id, isNotNull);
@@ -50,7 +50,7 @@ void main() {
   });
 
   test("aggregatedTrades", () async {
-    final result = await http.aggregatedTrades(
+    final result = await rest.aggregatedTrades(
       "BTCUSDT",
       limit: 100,
       startTime: DateTime.now().subtract(Duration(minutes: 10)),
@@ -67,7 +67,7 @@ void main() {
   });
 
   test("candlesticks", () async {
-    final result = await http.candlesticks(
+    final result = await rest.candlesticks(
       "BTCUSDT",
       "1m",
       limit: 100,
@@ -81,21 +81,21 @@ void main() {
   });
 
   test("averagePrice", () async {
-    final result = await http.averagePrice("BTCUSDT");
+    final result = await rest.averagePrice("BTCUSDT");
 
     expect(result.mins, isNotNull);
     expect(result.price, isNotNull);
   });
 
   test("dailyStats", () async {
-    final result = await http.dailyStats("BTCUSDT");
+    final result = await rest.dailyStats("BTCUSDT");
 
     expect(result.symbol, equals("BTCUSDT"));
     expect(result.lastPrice, isNotNull);
   });
 
   test("allDailyStats", () async {
-    final result = await http.allDailyStats();
+    final result = await rest.allDailyStats();
 
     expect(result.length, greaterThan(100));
     expect(result.first.symbol, isNotNull);
@@ -103,14 +103,14 @@ void main() {
   });
 
   test("symbolPriceTicker", () async {
-    final result = await http.symbolPriceTicker("BTCUSDT");
+    final result = await rest.symbolPriceTicker("BTCUSDT");
 
     expect(result.symbol, equals("BTCUSDT"));
     expect(result.price, isNotNull);
   });
 
   test("allSymbolPriceTickers", () async {
-    final result = await http.allSymbolPriceTickers();
+    final result = await rest.allSymbolPriceTickers();
 
     expect(result.length, greaterThan(100));
     expect(result.first.symbol, isNotNull);
@@ -118,14 +118,14 @@ void main() {
   });
 
   test("bookTicker", () async {
-    final result = await http.bookTicker("BTCUSDT");
+    final result = await rest.bookTicker("BTCUSDT");
 
     expect(result.symbol, equals("BTCUSDT"));
     expect(result.bidPrice, isNotNull);
   });
 
   test("allBookTickers", () async {
-    final result = await http.allBookTickers();
+    final result = await rest.allBookTickers();
 
     expect(result.length, greaterThan(100));
     expect(result.first.symbol, isNotNull);
