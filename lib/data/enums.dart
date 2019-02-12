@@ -37,3 +37,39 @@ const orderTypeMap = <String, OrderType>{
   'TAKE_PROFIT_LIMIT': OrderType.takeProfitLimit,
   'LIMIT_MAKER': OrderType.limitMaker
 };
+
+enum Interval {
+  oneMinute,
+  threeMinutes,
+  fiveMinutes,
+  fifteenMinutes,
+  thirtyMinutes,
+  oneHour,
+  twoHours,
+  fourHours,
+  sixHours,
+  eightHours,
+  twelveHours,
+  oneDay,
+  threeDays,
+  oneWeek,
+  oneMonth
+}
+
+const intervalMap = <Interval, String>{
+  Interval.oneMinute: '1m',
+  Interval.threeMinutes: '3m',
+  Interval.fiveMinutes: '5m',
+  Interval.fifteenMinutes: '15m',
+  Interval.thirtyMinutes: '30m',
+  Interval.oneHour: '1h',
+  Interval.twoHours: '2h',
+  Interval.fourHours: '4h',
+  Interval.sixHours: '6h',
+  Interval.eightHours: '8h',
+  Interval.twelveHours: '12h',
+  Interval.oneDay: '1d',
+  Interval.threeDays: '3d',
+  Interval.oneWeek: '1w',
+  Interval.oneMonth: '1M'
+};
