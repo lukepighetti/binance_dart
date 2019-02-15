@@ -32,6 +32,9 @@ ETHUSDT [54910798] 121.06 USDT, 10.280
 ## Roadmap
 
 * Support authenticated endpoints
+* `<symbol>@trade`
+* `<symbol>@kline_<interval>`
+* Book class that properly aggregates a live order book
 
 ## Contributing
 
