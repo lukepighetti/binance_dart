@@ -1,61 +1,62 @@
-import "package:test/test.dart";
+import 'package:test/test.dart';
 
 import 'package:binance/binance.dart';
 
 void main() {
   final websocket = Binance();
-  test("aggTrade", () async {
-    final stream = await websocket.aggTrade("BTCUSDT");
+
+  test('aggTrade', () async {
+    final stream = await websocket.aggTrade('BTCUSDT');
 
     stream.first.then(expectAsync1((e) {
-      expect(e.eventType, equals("aggTrade"));
+      expect(e.eventType, equals('aggTrade'));
       expect(e.eventTime, isNotNull);
       expect(e.id, isNotNull);
     }));
   });
 
-  test("miniTicker", () async {
-    final stream = await websocket.miniTicker("BTCUSDT");
+  test('miniTicker', () async {
+    final stream = await websocket.miniTicker('BTCUSDT');
 
     stream.first.then(expectAsync1((e) {
-      expect(e.eventType, equals("24hrMiniTicker"));
+      expect(e.eventType, equals('24hrMiniTicker'));
       expect(e.eventTime, isNotNull);
       expect(e.close, isNotNull);
     }));
   });
 
-  test("allMiniTickers", () async {
+  test('allMiniTickers', () async {
     final stream = await websocket.allMiniTickers();
 
     stream.first.then(expectAsync1((e) {
-      expect(e.first.eventType, equals("24hrMiniTicker"));
+      expect(e.first.eventType, equals('24hrMiniTicker'));
       expect(e.first.eventTime, isNotNull);
       expect(e.first.close, isNotNull);
     }));
   });
 
-  test("ticker", () async {
-    final stream = await websocket.ticker("BTCUSDT");
+  test('ticker', () async {
+    final stream = await websocket.ticker('BTCUSDT');
 
     stream.first.then(expectAsync1((e) {
-      expect(e.eventType, equals("24hrTicker"));
+      expect(e.eventType, equals('24hrTicker'));
       expect(e.eventTime, isNotNull);
       expect(e.close, isNotNull);
     }));
   });
 
-  test("allTickers", () async {
+  test('allTickers', () async {
     final stream = await websocket.allTickers();
 
     stream.first.then(expectAsync1((e) {
-      expect(e.first.eventType, equals("24hrTicker"));
+      expect(e.first.eventType, equals('24hrTicker'));
       expect(e.first.eventTime, isNotNull);
       expect(e.first.close, isNotNull);
     }));
   });
 
-  test("bookDepth", () async {
-    final stream = await websocket.bookDepth("BTCUSDT", 5);
+  test('bookDepth', () async {
+    final stream = await websocket.bookDepth('BTCUSDT', 5);
 
     stream.first.then(expectAsync1((e) {
       expect(e.lastUpdateId, isNotNull);
@@ -67,8 +68,8 @@ void main() {
     }));
   });
 
-  test("diffBookDepth", () async {
-    final stream = await websocket.diffBookDepth("BTCUSDT");
+  test('diffBookDepth', () async {
+    final stream = await websocket.diffBookDepth('BTCUSDT');
 
     stream.first.then(expectAsync1((e) {
       expect(e.lastUpdateId, isNotNull);

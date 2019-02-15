@@ -1,15 +1,16 @@
-import "package:test/test.dart";
+import 'package:test/test.dart';
 
 import 'package:binance/binance.dart';
 
 void main() {
   final rest = Binance();
-  test("ping", () async {
+
+  test('ping', () async {
     final result = await rest.ping();
     expect(result, equals(true));
   });
 
-  test("time", () async {
+  test('time', () async {
     final serverTime = await rest.time();
     final now = DateTime.now();
     final tolerance = Duration(minutes: 1);
@@ -17,7 +18,7 @@ void main() {
     expect(serverTime.difference(now), lessThan(tolerance));
   });
 
-  test("exchangeInfo", () async {
+  test('exchangeInfo', () async {
     final result = await rest.exchangeInfo();
 
     final serverTime = result.serverTime;
@@ -29,16 +30,16 @@ void main() {
     expect(result.symbols.length, greaterThan(100));
   });
 
-  test("depth", () async {
-    final result = await rest.depth("BTCUSDT", 100);
+  test('depth', () async {
+    final result = await rest.depth('BTCUSDT', 100);
 
     expect(result.lastUpdateId, isNotNull);
     expect(result.bids.length, equals(100));
     expect(result.asks.length, equals(100));
   });
 
-  test("recentTrades", () async {
-    final result = await rest.recentTrades("BTCUSDT", 100);
+  test('recentTrades', () async {
+    final result = await rest.recentTrades('BTCUSDT', 100);
 
     expect(result.length, equals(100));
     expect(result.first.id, isNotNull);
@@ -49,9 +50,9 @@ void main() {
     expect(result.first.time, isNotNull);
   });
 
-  test("aggregatedTrades", () async {
+  test('aggregatedTrades', () async {
     final result = await rest.aggregatedTrades(
-      "BTCUSDT",
+      'BTCUSDT',
       limit: 100,
       startTime: DateTime.now().subtract(Duration(minutes: 10)),
       endTime: DateTime.now(),
@@ -66,9 +67,9 @@ void main() {
     expect(result.first.time, isNotNull);
   });
 
-  test("candlesticks", () async {
+  test('candlesticks', () async {
     final result = await rest.candlesticks(
-      "BTCUSDT",
+      'BTCUSDT',
       Interval.oneMinute,
       limit: 100,
     );
@@ -80,21 +81,21 @@ void main() {
     expect(result.first.close, isNotNull);
   });
 
-  test("averagePrice", () async {
-    final result = await rest.averagePrice("BTCUSDT");
+  test('averagePrice', () async {
+    final result = await rest.averagePrice('BTCUSDT');
 
     expect(result.mins, isNotNull);
     expect(result.price, isNotNull);
   });
 
-  test("dailyStats", () async {
-    final result = await rest.dailyStats("BTCUSDT");
+  test('dailyStats', () async {
+    final result = await rest.dailyStats('BTCUSDT');
 
-    expect(result.symbol, equals("BTCUSDT"));
+    expect(result.symbol, equals('BTCUSDT'));
     expect(result.lastPrice, isNotNull);
   });
 
-  test("allDailyStats", () async {
+  test('allDailyStats', () async {
     final result = await rest.allDailyStats();
 
     expect(result.length, greaterThan(100));
@@ -102,14 +103,14 @@ void main() {
     expect(result.first.lastPrice, isNotNull);
   });
 
-  test("symbolPriceTicker", () async {
-    final result = await rest.symbolPriceTicker("BTCUSDT");
+  test('symbolPriceTicker', () async {
+    final result = await rest.symbolPriceTicker('BTCUSDT');
 
-    expect(result.symbol, equals("BTCUSDT"));
+    expect(result.symbol, equals('BTCUSDT'));
     expect(result.price, isNotNull);
   });
 
-  test("allSymbolPriceTickers", () async {
+  test('allSymbolPriceTickers', () async {
     final result = await rest.allSymbolPriceTickers();
 
     expect(result.length, greaterThan(100));
@@ -117,14 +118,14 @@ void main() {
     expect(result.first.price, isNotNull);
   });
 
-  test("bookTicker", () async {
-    final result = await rest.bookTicker("BTCUSDT");
+  test('bookTicker', () async {
+    final result = await rest.bookTicker('BTCUSDT');
 
-    expect(result.symbol, equals("BTCUSDT"));
+    expect(result.symbol, equals('BTCUSDT'));
     expect(result.bidPrice, isNotNull);
   });
 
-  test("allBookTickers", () async {
+  test('allBookTickers', () async {
     final result = await rest.allBookTickers();
 
     expect(result.length, greaterThan(100));

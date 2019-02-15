@@ -1,12 +1,11 @@
-import "dart:convert" as convert;
-
+import 'dart:convert' as convert;
 import 'package:web_socket_channel/io.dart';
 
-import 'data/ws_classes.dart';
+import '../data/ws_classes.dart';
 
 class BinanceWebsocket {
   IOWebSocketChannel _public(String channel) => IOWebSocketChannel.connect(
-        "wss://stream.binance.com:9443/ws/${channel}",
+        'wss://stream.binance.com:9443/ws/${channel}',
         pingInterval: Duration(minutes: 1),
       );
 
@@ -15,7 +14,7 @@ class BinanceWebsocket {
 
   /// Reports aggregated trade events from <symbol>@aggTrade
   Stream<WsAggregatedTrade> aggTrade(String symbol) {
-    final channel = _public("${symbol.toLowerCase()}@aggTrade");
+    final channel = _public('${symbol.toLowerCase()}@aggTrade');
 
     return channel.stream
         .map<Map>(_toMap)
@@ -24,7 +23,7 @@ class BinanceWebsocket {
 
   /// Reports 24hr miniTicker events every second from <symbol>@miniTicker
   Stream<MiniTicker> miniTicker(String symbol) {
-    final channel = _public("${symbol.toLowerCase()}@miniTicker");
+    final channel = _public('${symbol.toLowerCase()}@miniTicker');
 
     return channel.stream
         .map<Map>(_toMap)
@@ -34,7 +33,7 @@ class BinanceWebsocket {
   /// Reports 24hr miniTicker events every second for every trading pair
   /// that changed in the last second
   Stream<List<MiniTicker>> allMiniTickers() {
-    final channel = _public("!miniTicker@arr");
+    final channel = _public('!miniTicker@arr');
 
     return channel.stream.map<List<Map>>(_toList).map<List<MiniTicker>>(
         (ev) => ev.map((m) => MiniTicker.fromMap(m)).toList());
@@ -42,7 +41,7 @@ class BinanceWebsocket {
 
   /// Reports 24hr ticker events every second from <symbol>@ticker
   Stream<Ticker> ticker(String symbol) {
-    final channel = _public("${symbol.toLowerCase()}@ticker");
+    final channel = _public('${symbol.toLowerCase()}@ticker');
 
     return channel.stream
         .map<Map>(_toMap)
@@ -52,7 +51,7 @@ class BinanceWebsocket {
   /// Reports 24hr miniTicker events every second for every trading pair
   /// that changed in the last second
   Stream<List<Ticker>> allTickers() {
-    final channel = _public("!ticker@arr");
+    final channel = _public('!ticker@arr');
 
     return channel.stream
         .map<List<Map>>(_toList)
@@ -65,7 +64,7 @@ class BinanceWebsocket {
   Stream<BookDepth> bookDepth(String symbol, [int levels = 5]) {
     assert(levels == 5 || levels == 10 || levels == 20);
 
-    final channel = _public("${symbol.toLowerCase()}@depth$levels");
+    final channel = _public('${symbol.toLowerCase()}@depth$levels');
 
     return channel.stream
         .map<Map>(_toMap)
@@ -76,7 +75,7 @@ class BinanceWebsocket {
   ///
   /// This can be used to update an existing book with incremental changes
   Stream<DiffBookDepth> diffBookDepth(String symbol) {
-    final channel = _public("${symbol.toLowerCase()}@depth");
+    final channel = _public('${symbol.toLowerCase()}@depth');
 
     return channel.stream
         .map<Map>(_toMap)
