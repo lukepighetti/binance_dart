@@ -1,6 +1,9 @@
 /// A class that represents the data located at /v1/exchangeInfo
 import 'enums.dart';
 
+/// Current exchange trading rules and symbol information
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#exchange-information
 class ExchangeInfo {
   final String timezone;
   final DateTime serverTime;
@@ -14,7 +17,9 @@ class ExchangeInfo {
             m['symbols'].map<Symbol>((s) => Symbol.fromMap(s)).toList();
 }
 
-/// A class that represents the Symbols returned by /v1/exchangeInfo
+/// Represents the Symbols contained within [ExchangeInfo.symbols]
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#exchange-information
 class Symbol {
   final String symbol;
 
@@ -41,7 +46,9 @@ class Symbol {
         this.icebergAllowed = m['icebergAllowed'];
 }
 
-/// A class that represents the data located at /v1/depth
+/// Shape of the order book.
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#order-book
 
 class BookDepth {
   final int lastUpdateId;
@@ -56,7 +63,9 @@ class BookDepth {
             List<DepthPoint>.from(m["asks"].map((b) => DepthPoint.fromList(b)));
 }
 
-/// A class that represents the bids/asks data provided by /v1/depth
+/// Data-point for book depth.
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#order-book
 class DepthPoint {
   final num price;
   final num qty;
@@ -66,8 +75,9 @@ class DepthPoint {
         this.qty = num.parse(values[1]);
 }
 
-/// A class that represents the trades provided by /v1/trades
-
+/// Completed trade on the exchange.
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#recent-trades-list
 class Trade {
   final int id;
   final num price;
@@ -85,8 +95,11 @@ class Trade {
         this.isBestMatch = m['isBestMatch'];
 }
 
-/// A class that represents an aggregated trade provided
-/// by /v1/aggregatedTrades
+/// Aggregated trades with the first and last trade id in the aggregation.
+///
+/// Provides trade information without noise. Sometimes called "compressed trades."
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#compressedaggregate-trades-list
 class AggregatedTrade implements Trade {
   final int id;
   final num price;
@@ -109,8 +122,9 @@ class AggregatedTrade implements Trade {
         this.lastTradeId = m['l'];
 }
 
-/// A class that represents a candlestick provided by /v1/klines
-
+/// Kline, commonly known as Candlestick, which packs a lot of trade history information into a single data point.
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#klinecandlestick-data
 class Kline {
   final DateTime openTime;
   final double open;
@@ -139,20 +153,25 @@ class Kline {
         this.takerQuote = double.parse(c[10]);
 }
 
-/// A class that represents the data provided by /v3/avgPrice
-
+/// Average price over a certain duration.
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#current-average-price
 class AveragedPrice {
   num mins;
   double price;
+
+  /// Averaging window as a [Duration], derived from [AveragedPrice.mins]
+  Duration get window => Duration(minutes: mins);
 
   AveragedPrice.fromMap(Map m)
       : this.mins = m["mins"],
         this.price = double.parse(m["price"]);
 }
 
-/// A class that represents the data provided by /v1/ticker/24hr
-
-class Stats {
+/// Ticker statistics, usually from the last 24 hours.
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#24hr-ticker-price-change-statistics
+class TickerStats {
   final String symbol;
   final double priceChange;
   final double priceChangePercent;
@@ -173,7 +192,10 @@ class Stats {
   final int lastId;
   final int count;
 
-  Stats.fromMap(Map m)
+  /// The duration between [TickerStats.openTime] and [TickerStats.closeTime]
+  Duration get window => openTime.difference(closeTime);
+
+  TickerStats.fromMap(Map m)
       : this.symbol = m["symbol"],
         this.priceChange = double.parse(m["priceChange"]),
         this.priceChangePercent = double.parse(m["priceChangePercent"]),
@@ -195,8 +217,9 @@ class Stats {
         this.count = m["count"];
 }
 
-/// A class that contains the data returned by /v3/ticker/price
-
+/// Trading pair symbol and its price.
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#current-average-price
 class TickerPrice {
   String symbol;
   double price;
@@ -206,8 +229,9 @@ class TickerPrice {
         this.price = double.parse(m["price"]);
 }
 
-/// A class that contains the data returned by /v3/ticker/bookTicker
-
+/// Best current price on the book for a given [BookTicker.symbol]
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#symbol-order-book-ticker
 class BookTicker {
   String symbol;
   double bidPrice;
