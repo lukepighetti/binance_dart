@@ -1,14 +1,17 @@
 import 'rest_classes.dart';
 export 'rest_classes.dart';
 
-abstract class WebsocketBase {
+/// All websocket responses have an [eventType], [eventTime], and [symbol]
+abstract class _WebsocketBase {
   String get eventType;
   DateTime get eventTime;
   String get symbol;
 }
 
-/// Represents data provided by <symbol>@aggTrade
-class WsAggregatedTrade implements AggregatedTrade, WebsocketBase {
+/// See [AggregatedTrade]
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md#aggregate-trade-streams
+class WsAggregatedTrade implements AggregatedTrade, _WebsocketBase {
   final String eventType;
   final DateTime eventTime;
   final String symbol;
@@ -39,7 +42,9 @@ class WsAggregatedTrade implements AggregatedTrade, WebsocketBase {
 }
 
 /// Represents data provided by <symbol>@miniTicker and !miniTicker@arr
-class MiniTicker implements WebsocketBase {
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md#individual-symbol-mini-ticker-stream
+class MiniTicker implements _WebsocketBase {
   final String eventType;
   final DateTime eventTime;
   final String symbol;
@@ -64,7 +69,9 @@ class MiniTicker implements WebsocketBase {
 }
 
 /// Represents data provided by <symbol>@ticker and !ticker@arr
-class Ticker implements MiniTicker {
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md#individual-symbol-ticker-streams
+class Ticker implements MiniTicker, _WebsocketBase {
   final String eventType;
   final DateTime eventTime;
   final String symbol;
@@ -93,7 +100,8 @@ class Ticker implements MiniTicker {
   final int lastTradeId;
   final int tradesCount;
 
-  double get close => lastPrice; // extra from WSMiniTicker
+  /// Same as [lastPrice]
+  double get close => lastPrice;
 
   Ticker.fromMap(Map m)
       : this.eventType = m['e'],
@@ -121,7 +129,10 @@ class Ticker implements MiniTicker {
         this.tradesCount = m['n'];
 }
 
-class DiffBookDepth implements BookDepth, WebsocketBase {
+/// Order book price and quantity depth updates used to locally manage an order book pushed every second.
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md#diff-depth-stream
+class DiffBookDepth implements BookDepth, _WebsocketBase {
   final String eventType;
   final DateTime eventTime;
   final String symbol;
