@@ -14,49 +14,49 @@ class BinanceWebsocket {
   List<Map> _toList(json) => List<Map>.from(convert.jsonDecode(json));
 
   /// Reports aggregated trade events from <symbol>@aggTrade
-  Stream<WebsocketAggregatedTrade> aggTrade(String symbol) {
+  Stream<WsAggregatedTrade> aggTrade(String symbol) {
     final channel = _public("${symbol.toLowerCase()}@aggTrade");
 
-    return channel.stream.map<Map>(_toMap).map<WebsocketAggregatedTrade>(
-        (e) => WebsocketAggregatedTrade.fromMap(e));
+    return channel.stream
+        .map<Map>(_toMap)
+        .map<WsAggregatedTrade>((e) => WsAggregatedTrade.fromMap(e));
   }
 
   /// Reports 24hr miniTicker events every second from <symbol>@miniTicker
-  Stream<WebsocketMiniTicker> miniTicker(String symbol) {
+  Stream<MiniTicker> miniTicker(String symbol) {
     final channel = _public("${symbol.toLowerCase()}@miniTicker");
 
     return channel.stream
         .map<Map>(_toMap)
-        .map<WebsocketMiniTicker>((e) => WebsocketMiniTicker.fromMap(e));
+        .map<MiniTicker>((e) => MiniTicker.fromMap(e));
   }
 
   /// Reports 24hr miniTicker events every second for every trading pair
   /// that changed in the last second
-  Stream<List<WebsocketMiniTicker>> allMiniTickers() {
+  Stream<List<MiniTicker>> allMiniTickers() {
     final channel = _public("!miniTicker@arr");
 
-    return channel.stream
-        .map<List<Map>>(_toList)
-        .map<List<WebsocketMiniTicker>>(
-            (ev) => ev.map((m) => WebsocketMiniTicker.fromMap(m)).toList());
+    return channel.stream.map<List<Map>>(_toList).map<List<MiniTicker>>(
+        (ev) => ev.map((m) => MiniTicker.fromMap(m)).toList());
   }
 
   /// Reports 24hr ticker events every second from <symbol>@ticker
-  Stream<WebsocketTicker> ticker(String symbol) {
+  Stream<Ticker> ticker(String symbol) {
     final channel = _public("${symbol.toLowerCase()}@ticker");
 
     return channel.stream
         .map<Map>(_toMap)
-        .map<WebsocketTicker>((e) => WebsocketTicker.fromMap(e));
+        .map<Ticker>((e) => Ticker.fromMap(e));
   }
 
   /// Reports 24hr miniTicker events every second for every trading pair
   /// that changed in the last second
-  Stream<List<WebsocketTicker>> allTickers() {
+  Stream<List<Ticker>> allTickers() {
     final channel = _public("!ticker@arr");
 
-    return channel.stream.map<List<Map>>(_toList).map<List<WebsocketTicker>>(
-        (ev) => ev.map((m) => WebsocketTicker.fromMap(m)).toList());
+    return channel.stream
+        .map<List<Map>>(_toList)
+        .map<List<Ticker>>((ev) => ev.map((m) => Ticker.fromMap(m)).toList());
   }
 
   /// Reports book depth

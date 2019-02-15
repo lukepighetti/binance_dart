@@ -1,22 +1,21 @@
 /// A class that represents the data located at /v1/exchangeInfo
 import 'enums.dart';
 
-class ExchangeInfoResponse {
+class ExchangeInfo {
   final String timezone;
   final DateTime serverTime;
 
-  final List<ExchangeInfoSymbol> symbols;
+  final List<Symbol> symbols;
 
-  ExchangeInfoResponse.fromMap(Map m)
+  ExchangeInfo.fromMap(Map m)
       : this.timezone = m['timezone'],
         this.serverTime = DateTime.fromMillisecondsSinceEpoch(m['serverTime']),
-        this.symbols = m['symbols']
-            .map<ExchangeInfoSymbol>((s) => ExchangeInfoSymbol.fromMap(s))
-            .toList();
+        this.symbols =
+            m['symbols'].map<Symbol>((s) => Symbol.fromMap(s)).toList();
 }
 
 /// A class that represents the Symbols returned by /v1/exchangeInfo
-class ExchangeInfoSymbol {
+class Symbol {
   final String symbol;
 
   final Status status;
@@ -29,7 +28,7 @@ class ExchangeInfoSymbol {
   final bool icebergAllowed;
   // List<Filter> filters;
 
-  ExchangeInfoSymbol.fromMap(Map m)
+  Symbol.fromMap(Map m)
       : this.symbol = m['symbol'],
         this.status = statusMap[m['status']],
         this.baseAsset = m['baseAsset'],
@@ -46,30 +45,30 @@ class ExchangeInfoSymbol {
 
 class BookDepth {
   final int lastUpdateId;
-  final List<BookDepthPoint> bids;
-  final List<BookDepthPoint> asks;
+  final List<DepthPoint> bids;
+  final List<DepthPoint> asks;
 
   BookDepth.fromMap(Map m)
       : this.lastUpdateId = m["lastUpdateId"],
-        this.bids = List<BookDepthPoint>.from(
-            m["bids"].map((b) => BookDepthPoint.fromList(b))),
-        this.asks = List<BookDepthPoint>.from(
-            m["asks"].map((b) => BookDepthPoint.fromList(b)));
+        this.bids =
+            List<DepthPoint>.from(m["bids"].map((b) => DepthPoint.fromList(b))),
+        this.asks =
+            List<DepthPoint>.from(m["asks"].map((b) => DepthPoint.fromList(b)));
 }
 
 /// A class that represents the bids/asks data provided by /v1/depth
-class BookDepthPoint {
+class DepthPoint {
   final num price;
   final num qty;
 
-  BookDepthPoint.fromList(List values)
+  DepthPoint.fromList(List values)
       : this.price = num.parse(values.first),
         this.qty = num.parse(values[1]);
 }
 
 /// A class that represents the trades provided by /v1/trades
 
-class RecentTrade {
+class Trade {
   final int id;
   final num price;
   final num qty;
@@ -77,7 +76,7 @@ class RecentTrade {
   final bool isBuyerMaker;
   final bool isBestMatch;
 
-  RecentTrade.fromMap(Map m)
+  Trade.fromMap(Map m)
       : this.id = m['id'],
         this.price = num.parse(m['price']),
         this.qty = num.parse(m['qty']),
@@ -88,7 +87,7 @@ class RecentTrade {
 
 /// A class that represents an aggregated trade provided
 /// by /v1/aggregatedTrades
-class AggregatedTrade implements RecentTrade {
+class AggregatedTrade implements Trade {
   final int id;
   final num price;
   final num qty;
@@ -142,18 +141,18 @@ class Kline {
 
 /// A class that represents the data provided by /v3/avgPrice
 
-class AveragePrice {
+class AveragedPrice {
   num mins;
   double price;
 
-  AveragePrice.fromMap(Map m)
+  AveragedPrice.fromMap(Map m)
       : this.mins = m["mins"],
         this.price = double.parse(m["price"]);
 }
 
 /// A class that represents the data provided by /v1/ticker/24hr
 
-class DailyStats {
+class Stats {
   final String symbol;
   final double priceChange;
   final double priceChangePercent;
@@ -174,7 +173,7 @@ class DailyStats {
   final int lastId;
   final int count;
 
-  DailyStats.fromMap(Map m)
+  Stats.fromMap(Map m)
       : this.symbol = m["symbol"],
         this.priceChange = double.parse(m["priceChange"]),
         this.priceChangePercent = double.parse(m["priceChangePercent"]),
@@ -198,11 +197,11 @@ class DailyStats {
 
 /// A class that contains the data returned by /v3/ticker/price
 
-class PriceTicker {
+class TickerPrice {
   String symbol;
   double price;
 
-  PriceTicker.fromMap(Map m)
+  TickerPrice.fromMap(Map m)
       : this.symbol = m["symbol"],
         this.price = double.parse(m["price"]);
 }

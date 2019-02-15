@@ -8,5 +8,5 @@ main() async {
   _binance.aggTrade("LTCUSDT").listen(_printTrade);
 }
 
-_printTrade(WebsocketAggregatedTrade t) => print(
+_printTrade(WsAggregatedTrade t) => print(
     "${t.symbol} [${t.id}] ${t.price.toStringAsFixed(2)} USDT, ${t.qty.toStringAsFixed(3)}");

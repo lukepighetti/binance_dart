@@ -22,8 +22,8 @@ class BinanceRest {
       .then((r) => DateTime.fromMillisecondsSinceEpoch(r["serverTime"]));
 
   /// Returns general info about the exchange from /v1/exchangeInfo
-  Future<ExchangeInfoResponse> exchangeInfo() =>
-      _public('/v1/exchangeInfo').then((r) => ExchangeInfoResponse.fromMap(r));
+  Future<ExchangeInfo> exchangeInfo() =>
+      _public('/v1/exchangeInfo').then((r) => ExchangeInfo.fromMap(r));
 
   /// Order book depth from /v1/depth
   Future<BookDepth> depth(String symbol, [int limit = 100]) =>
@@ -31,9 +31,9 @@ class BinanceRest {
           .then((r) => BookDepth.fromMap(r));
 
   /// Recent trades from /v1/trades
-  Future<List<RecentTrade>> recentTrades(String symbol, [int limit = 500]) =>
-      _public('/v1/trades', {"symbol": "$symbol", "limit": "$limit"}).then(
-          (r) => List<RecentTrade>.from(r.map((m) => RecentTrade.fromMap(m))));
+  Future<List<Trade>> recentTrades(String symbol, [int limit = 500]) =>
+      _public('/v1/trades', {"symbol": "$symbol", "limit": "$limit"})
+          .then((r) => List<Trade>.from(r.map((m) => Trade.fromMap(m))));
 
   /// Historical trades from /v1/aggTrades
   /// Authenticated endpoint
@@ -89,41 +89,41 @@ class BinanceRest {
   }
 
   /// Current average price from /v3/avgPrice
-  Future<AveragePrice> averagePrice(String symbol) =>
+  Future<AveragedPrice> averagePrice(String symbol) =>
       _public("/v3/avgPrice", {"symbol": symbol})
-          .then((r) => AveragePrice.fromMap(r));
+          .then((r) => AveragedPrice.fromMap(r));
 
   /// 24 hour ticker price change statistics
-  Future<DailyStats> dailyStats(String symbol) async {
+  Future<Stats> dailyStats(String symbol) async {
     assert(symbol != null);
     final response = await _public("/v1/ticker/24hr", {"symbol": symbol});
 
-    return DailyStats.fromMap(response);
+    return Stats.fromMap(response);
   }
 
   /// WARNING: this is VERY expensive and may cause rate limiting
   ///
   /// 24 hour ticker price change statistics for all coins
-  Future<List<DailyStats>> allDailyStats() async {
+  Future<List<Stats>> allDailyStats() async {
     final response = await _public("/v1/ticker/24hr");
 
-    return List<DailyStats>.from(response.map((s) => DailyStats.fromMap(s)));
+    return List<Stats>.from(response.map((s) => Stats.fromMap(s)));
   }
 
   /// Price ticker from /v3/ticker/price
-  Future<PriceTicker> symbolPriceTicker(String symbol) async {
+  Future<TickerPrice> symbolPriceTicker(String symbol) async {
     assert(symbol != null);
 
     final response = await _public("/v3/ticker/price", {"symbol": symbol});
 
-    return PriceTicker.fromMap(response);
+    return TickerPrice.fromMap(response);
   }
 
   /// All price tickers from /v3/ticker/price
-  Future<List<PriceTicker>> allSymbolPriceTickers() async {
+  Future<List<TickerPrice>> allSymbolPriceTickers() async {
     final response = await _public("/v3/ticker/price");
 
-    return List<PriceTicker>.from(response.map((s) => PriceTicker.fromMap(s)));
+    return List<TickerPrice>.from(response.map((s) => TickerPrice.fromMap(s)));
   }
 
   /// Symbol order book ticker from /v3/ticker/bookTicker

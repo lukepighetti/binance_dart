@@ -1,5 +1,5 @@
 import 'rest_classes.dart';
-export 'rest_classes.dart' show BookDepth;
+export 'rest_classes.dart';
 
 abstract class WebsocketBase {
   String get eventType;
@@ -8,7 +8,7 @@ abstract class WebsocketBase {
 }
 
 /// Represents data provided by <symbol>@aggTrade
-class WebsocketAggregatedTrade implements AggregatedTrade, WebsocketBase {
+class WsAggregatedTrade implements AggregatedTrade, WebsocketBase {
   final String eventType;
   final DateTime eventTime;
   final String symbol;
@@ -24,7 +24,7 @@ class WebsocketAggregatedTrade implements AggregatedTrade, WebsocketBase {
   final bool isBuyerMaker;
   final bool isBestMatch;
 
-  WebsocketAggregatedTrade.fromMap(Map m)
+  WsAggregatedTrade.fromMap(Map m)
       : this.eventType = m['e'],
         this.eventTime = DateTime.fromMillisecondsSinceEpoch(m['E']),
         this.symbol = m['s'],
@@ -39,7 +39,7 @@ class WebsocketAggregatedTrade implements AggregatedTrade, WebsocketBase {
 }
 
 /// Represents data provided by <symbol>@miniTicker and !miniTicker@arr
-class WebsocketMiniTicker implements WebsocketBase {
+class MiniTicker implements WebsocketBase {
   final String eventType;
   final DateTime eventTime;
   final String symbol;
@@ -51,7 +51,7 @@ class WebsocketMiniTicker implements WebsocketBase {
   final double volume;
   final double quoteVolume;
 
-  WebsocketMiniTicker.fromMap(Map m)
+  MiniTicker.fromMap(Map m)
       : this.eventType = m['e'],
         this.eventTime = DateTime.fromMillisecondsSinceEpoch(m['E']),
         this.symbol = m['s'],
@@ -64,7 +64,7 @@ class WebsocketMiniTicker implements WebsocketBase {
 }
 
 /// Represents data provided by <symbol>@ticker and !ticker@arr
-class WebsocketTicker implements WebsocketMiniTicker {
+class Ticker implements MiniTicker {
   final String eventType;
   final DateTime eventTime;
   final String symbol;
@@ -95,7 +95,7 @@ class WebsocketTicker implements WebsocketMiniTicker {
 
   double get close => lastPrice; // extra from WSMiniTicker
 
-  WebsocketTicker.fromMap(Map m)
+  Ticker.fromMap(Map m)
       : this.eventType = m['e'],
         this.eventTime = DateTime.fromMillisecondsSinceEpoch(m['E']),
         this.symbol = m['s'],
@@ -129,8 +129,8 @@ class DiffBookDepth implements BookDepth, WebsocketBase {
   final int firstUpdateId;
   final int lastUpdateId;
 
-  final List<BookDepthPoint> bids;
-  final List<BookDepthPoint> asks;
+  final List<DepthPoint> bids;
+  final List<DepthPoint> asks;
 
   DiffBookDepth.fromMap(Map m)
       : this.eventType = m['e'],
@@ -138,8 +138,8 @@ class DiffBookDepth implements BookDepth, WebsocketBase {
         this.symbol = m['s'],
         this.firstUpdateId = m["U"],
         this.lastUpdateId = m["u"],
-        this.bids = List<BookDepthPoint>.from(
-            m["b"].map((b) => BookDepthPoint.fromList(b))),
-        this.asks = List<BookDepthPoint>.from(
-            m["a"].map((b) => BookDepthPoint.fromList(b)));
+        this.bids =
+            List<DepthPoint>.from(m["b"].map((b) => DepthPoint.fromList(b))),
+        this.asks =
+            List<DepthPoint>.from(m["a"].map((b) => DepthPoint.fromList(b)));
 }
