@@ -3,7 +3,7 @@ import "package:test/test.dart";
 import 'package:binance/binance.dart';
 
 void main() {
-  final rest = Binance().rest;
+  final rest = Binance();
   test("ping", () async {
     final result = await rest.ping();
     expect(result, equals(true));

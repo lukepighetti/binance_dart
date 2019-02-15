@@ -3,7 +3,7 @@ import "package:test/test.dart";
 import 'package:binance/binance.dart';
 
 void main() {
-  final websocket = Binance().ws;
+  final websocket = Binance();
   test("aggTrade", () async {
     final stream = await websocket.aggTrade("BTCUSDT");
 
