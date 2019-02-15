@@ -1,3 +1,6 @@
+/// Describes the status of a trading pair. An actively trading pair is [Status.trading]
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#enum-definitions
 enum Status {
   preTrading,
   trading,
@@ -8,6 +11,7 @@ enum Status {
   breakTrading
 }
 
+/// Maps [Status] to a Binance string
 const statusMap = <String, Status>{
   'PRE_TRADING': Status.preTrading,
   'TRADING': Status.trading,
@@ -18,6 +22,9 @@ const statusMap = <String, Status>{
   'BREAK': Status.breakTrading
 };
 
+/// Describes the type of an order. A limit order is [OrderType.limit]
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#enum-definitions
 enum OrderType {
   limit,
   market,
@@ -28,6 +35,7 @@ enum OrderType {
   limitMaker
 }
 
+/// Maps [OrderType] to a Binance string
 const orderTypeMap = <String, OrderType>{
   'LIMIT': OrderType.limit,
   'MARKET': OrderType.market,
@@ -38,6 +46,9 @@ const orderTypeMap = <String, OrderType>{
   'LIMIT_MAKER': OrderType.limitMaker
 };
 
+/// The chart interval for [Klein], aka Candlesticks. A one-minute interval is [Interval.oneMinute]
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#enum-definitions
 enum Interval {
   oneMinute,
   threeMinutes,
@@ -56,6 +67,7 @@ enum Interval {
   oneMonth
 }
 
+/// Maps [Interval] to a Binance string
 const intervalMap = <Interval, String>{
   Interval.oneMinute: '1m',
   Interval.threeMinutes: '3m',
