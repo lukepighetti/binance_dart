@@ -3,6 +3,7 @@ import 'dart:convert' as convert;
 
 import '../data/rest_classes.dart';
 import '../data/enums.dart';
+import 'exceptions.dart';
 
 const BASE = 'https://api.binance.com';
 
@@ -11,7 +12,15 @@ class BinanceRest {
     final uri = Uri.https('api.binance.com', '/api/$path', params);
     final response = await http.get(uri);
 
-    return convert.jsonDecode(response.body);
+    final result = convert.jsonDecode(response.body);
+
+    if (result is Map) {
+      if (result.containsKey("code")) {
+        throw BinanceApiException(result["msg"], result["code"]);
+      }
+    }
+
+    return result;
   }
 
   /// Return true if the server is available with /v1/ping
