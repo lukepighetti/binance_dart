@@ -5,10 +5,6 @@ class BinanceApiException implements Exception {
   final String message;
 
   @override
-  String toString() {
-    var msg = "\n\n-----------------------------------------------\n";
-    msg += "Api result error: $message : code $code   \n";
-    msg += "-----------------------------------------------\n";
-    return msg;
-  }
+  String toString() =>
+      "The Binance api returned an error: $message : code $code";
 }
