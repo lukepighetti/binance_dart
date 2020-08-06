@@ -5,11 +5,9 @@ import '../data/rest_classes.dart';
 import '../data/enums.dart';
 import 'exceptions.dart';
 
-const BASE = 'https://api.binance.com';
-
 class BinanceRest {
   Future<dynamic> _public(String path, [Map<String, String> params]) async {
-    final uri = Uri.https('api.binance.com', '/api/$path', params);
+    final uri = Uri.https('api.binance.com', 'api$path', params);
     final response = await http.get(uri);
 
     final result = convert.jsonDecode(response.body);
