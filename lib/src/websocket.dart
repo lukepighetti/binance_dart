@@ -68,6 +68,18 @@ class BinanceWebsocket {
         .map<List<Ticker>>((ev) => ev.map((m) => Ticker.fromMap(m)).toList());
   }
 
+  /// Pushes any update to the best bid or ask's price or quantity in real-time for all symbols
+  /// 
+  /// https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md#all-book-tickers-stream
+
+  Stream<WSBookTicker> allBookTicker() {
+    final channel = _public('!bookTicker');
+
+    return channel.stream
+        .map<Map>(_toMap)
+        .map<WSBookTicker>((m) => WSBookTicker.fromMap(m));
+  }
+
   /// Reports book depth
   ///
   /// Levels can be 5, 10, or 20
