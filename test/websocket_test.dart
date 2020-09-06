@@ -55,6 +55,16 @@ void main() {
     }));
   });
 
+  test('allBookTicker', () async {
+    final stream = await websocket.allBookTicker();
+
+    stream.first.then(expectAsync1((e) {
+      expect(e.updateID, isNotNull);
+      expect(e.askPrice, isNotNull);
+      expect(e.bidQty, isNotNull);
+    }));
+  });
+
   test('bookDepth', () async {
     final stream = await websocket.bookDepth('BTCUSDT', 5);
 

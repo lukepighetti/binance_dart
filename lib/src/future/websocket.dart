@@ -1,11 +1,11 @@
 import 'dart:convert' as convert;
 import 'package:web_socket_channel/io.dart';
 
-import '../data/ws_classes.dart';
+import '../../data/ws_classes.dart';
 
-class BinanceWebsocket {
+class BinanceFutureWebsocket {
   IOWebSocketChannel _public(String channel) => IOWebSocketChannel.connect(
-        'wss://stream.binance.com:9443/ws/${channel}',
+        'wss://fstream.binance.com:9443/ws/${channel}',
         pingInterval: Duration(minutes: 1),
       );
 

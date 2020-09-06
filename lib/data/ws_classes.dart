@@ -154,3 +154,20 @@ class DiffBookDepth implements BookDepth, _WebsocketBase {
         this.asks =
             List<DepthPoint>.from(m["a"].map((b) => DepthPoint.fromList(b)));
 }
+
+class WSBookTicker {
+  final String symbol;
+  final int updateID;
+  final double bidPrice;
+  final double bidQty;
+  final double askPrice;
+  final double askQty;
+
+  WSBookTicker.fromMap(Map m)
+      : this.symbol = m["s"],
+        this.updateID = m["u"],
+        this.bidPrice = double.parse(m["b"]),
+        this.bidQty = double.parse(m["B"]),
+        this.askPrice = double.parse(m["a"]),
+        this.askQty = double.parse(m["A"]);
+}
