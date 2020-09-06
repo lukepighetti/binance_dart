@@ -1,3 +1,7 @@
+## 1.0.3
+
+- Add allBookTicker api to websocket interface
+
 ## 1.0.2
 
 - Fix the 404 error from the Binance API no longer supporting double slashes in URLs
