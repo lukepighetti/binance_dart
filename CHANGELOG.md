@@ -1,3 +1,7 @@
+## 1.0.4
+
+- Add kline api to websocket interface
+
 ## 1.0.3
 
 - Add allBookTicker api to websocket interface
