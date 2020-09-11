@@ -41,6 +41,53 @@ class WsAggregatedTrade implements AggregatedTrade, _WebsocketBase {
         this.isBestMatch = m['M'];
 }
 
+/// See [Kline]
+///
+/// https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md#klinecandlestick-streams
+class WsKline implements Kline, _WebsocketBase {
+  final String eventType;
+  final DateTime eventTime;
+  final String symbol;
+
+  final DateTime openTime;
+  final double open;
+  final double high;
+  final double low;
+  final double close;
+  final double volume;
+  final DateTime closeTime;
+
+  final double quoteVolume;
+  final int tradesCount;
+  final double takerBase;
+  final double takerQuote;
+
+  final String interval;
+  final int firstTradeId;
+  final int lastTradeId;
+  final bool isKlineClosed;
+
+  WsKline.fromMap(Map m)
+      : this.eventType = m['e'],
+        this.eventTime = DateTime.fromMillisecondsSinceEpoch(m['E']),
+        this.symbol = m['s'],
+        this.openTime = DateTime.fromMillisecondsSinceEpoch(m['k']['t']),
+        this.open = double.parse(m['k']['o']),
+        this.high = double.parse(m['k']['h']),
+        this.low = double.parse(m['k']['l']),
+        this.close = double.parse(m['k']['c']),
+        this.volume = double.parse(m['k']['v']),
+        this.closeTime = DateTime.fromMillisecondsSinceEpoch(m['k']['T']),
+        this.quoteVolume = double.parse(m['k']['q']),
+        this.tradesCount = m['k']['n'],
+        this.takerBase = double.parse(m['k']['V']),
+        this.takerQuote = double.parse(m['k']['Q']),
+        this.interval = m['k']['i'],
+        this.firstTradeId = m['k']['f'],
+        this.lastTradeId = m['k']['L'],
+        this.isKlineClosed = m['k']['x'];
+}
+
 /// Represents data provided by <symbol>@miniTicker and !miniTicker@arr
 ///
 /// https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md#individual-symbol-mini-ticker-stream

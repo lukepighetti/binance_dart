@@ -23,6 +23,17 @@ class BinanceWebsocket {
         .map<WsAggregatedTrade>((e) => WsAggregatedTrade.fromMap(e));
   }
 
+  /// Reports candlesticks update events from <symbol>@kline_<interval>
+  ///
+  /// https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md#klinecandlestick-streams
+  Stream<WsKline> kline(String symbol, String interval) {
+    final channel = _public('${symbol.toLowerCase()}@kline_$interval');
+
+    return channel.stream
+        .map<Map>(_toMap)
+        .map<WsKline>((e) => WsKline.fromMap(e));
+  }
+
   /// Reports 24hr miniTicker events every second from <symbol>@miniTicker
   ///
   /// https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md#individual-symbol-mini-ticker-stream
