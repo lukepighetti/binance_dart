@@ -138,8 +138,6 @@ class BinanceRest {
   ///
   /// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#symbol-price-ticker
   Future<TickerPrice> symbolPriceTicker(String symbol) async {
-    assert(symbol != null);
-
     final response = await _public('/v3/ticker/price', {'symbol': symbol});
 
     return TickerPrice.fromMap(response);
