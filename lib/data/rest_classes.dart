@@ -35,13 +35,13 @@ class Symbol {
 
   Symbol.fromMap(Map m)
       : this.symbol = m['symbol'],
-        this.status = statusMap[m['status']],
+        this.status = statusMap[m['status']]!,
         this.baseAsset = m['baseAsset'],
         this.baseAssetPrecision = m['baseAssetPrecision'],
         this.quoteAsset = m['quoteAsset'],
         this.quotePrecision = m['quotePrecision'],
         this.orderTypes = List<String>.from(m['orderTypes'])
-            .map((s) => orderTypeMap[s])
+            .map((s) => orderTypeMap[s]!)
             .toList(),
         this.icebergAllowed = m['icebergAllowed'];
 }
@@ -157,7 +157,7 @@ class Kline {
 ///
 /// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#current-average-price
 class AveragedPrice {
-  num mins;
+  int mins;
   double price;
 
   /// Averaging window as a [Duration], derived from [AveragedPrice.mins]

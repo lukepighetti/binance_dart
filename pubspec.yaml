@@ -1,14 +1,14 @@
 name: binance
 description: A wrapper for Binance API with serialized data classes, futures, and streams.
-version: 1.0.4
+version: 2.0.0
 homepage: http://github.com/lukepighetti/binance-dart
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  http: ^0.12.2
-  web_socket_channel: ^1.1.0
+  http: ^0.13.3
+  web_socket_channel: ^2.1.0
 
 dev_dependencies:
   test: ^1.15.3

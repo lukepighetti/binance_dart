@@ -6,7 +6,7 @@ import '../data/enums.dart';
 import 'exceptions.dart';
 
 class BinanceRest {
-  Future<dynamic> _public(String path, [Map<String, String> params]) async {
+  Future<dynamic> _public(String path, [Map<String, String?>? params]) async {
     final uri = Uri.https('api.binance.com', 'api$path', params);
     final response = await http.get(uri);
 
@@ -57,18 +57,18 @@ class BinanceRest {
   /// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#compressedaggregate-trades-list
   Future<List<AggregatedTrade>> aggregatedTrades(
     String symbol, {
-    int fromId,
-    DateTime startTime,
-    DateTime endTime,
-    int limit = 500,
+    int? fromId,
+    DateTime? startTime,
+    DateTime? endTime,
+    int? limit = 500,
   }) async {
     final params = {'symbol': '$symbol'};
 
     if (fromId != null) params['fromId'] = '$fromId';
     if (startTime != null)
-      params['startTime'] = '${startTime?.millisecondsSinceEpoch}';
+      params['startTime'] = '${startTime.millisecondsSinceEpoch}';
     if (endTime != null)
-      params['endTime'] = '${endTime?.millisecondsSinceEpoch}';
+      params['endTime'] = '${endTime.millisecondsSinceEpoch}';
     if (limit != null) params['limit'] = '$limit';
 
     final response = await _public('/v1/aggTrades', params);
@@ -84,13 +84,13 @@ class BinanceRest {
   Future<List<Kline>> candlesticks(
     String symbol,
     Interval interval, {
-    DateTime startTime,
-    DateTime endTime,
-    int limit = 500,
+    DateTime? startTime,
+    DateTime? endTime,
+    int? limit = 500,
   }) async {
-    final params = {
+    final params = <String, String>{
       'symbol': '$symbol',
-      'interval': intervalMap[interval],
+      'interval': intervalMap[interval]!,
       'limit': '$limit',
     };
 
@@ -116,7 +116,7 @@ class BinanceRest {
   /// 24 hour ticker price change statistics from /api/v1/ticker/24hr
   ///
   /// https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md#24hr-ticker-price-change-statistics
-  Future<TickerStats> dailyStats(String symbol) async {
+  Future<TickerStats> dailyStats(String? symbol) async {
     assert(symbol != null);
     final response = await _public('/v1/ticker/24hr', {'symbol': symbol});
 
